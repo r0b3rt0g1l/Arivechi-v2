@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(npx --version)",
+      "Bash(mkdir -p \"D:/DESKTOP/_arivechi-temp-assets\")",
+      "Bash(mv \"D:/DESKTOP/Arivechi-v2/escudo.arivechi-hd.png\" \"D:/DESKTOP/_arivechi-temp-assets/escudo-arivechi-hd.png\")",
+      "Bash(mv \"D:/DESKTOP/Arivechi-v2/ley-general-transparencia.pdf\" \"D:/DESKTOP/_arivechi-temp-assets/\")",
+      "Bash(mv \"D:/DESKTOP/Arivechi-v2/ley-transparencia-sonora.pdf\" \"D:/DESKTOP/_arivechi-temp-assets/\")",
+      "Read(//d/DESKTOP/**)",
+      "Bash(npx --yes create-next-app@latest . --js --tailwind --app --no-src-dir --import-alias \"@/*\" --use-npm --eslint --turbopack --skip-install)",
+      "Bash(npx --yes create-next-app@latest arivechi-v2-bootstrap --js --tailwind --app --no-src-dir --import-alias \"@/*\" --use-npm --eslint --turbopack --skip-install)",
+      "Bash(mv \"D:/DESKTOP/arivechi-v2-bootstrap/.gitignore\" \"D:/DESKTOP/Arivechi-v2/\")",
+      "Bash(mv \"D:/DESKTOP/arivechi-v2-bootstrap/AGENTS.md\" \"D:/DESKTOP/Arivechi-v2/\")",
+      "Bash(mv \"D:/DESKTOP/arivechi-v2-bootstrap/CLAUDE.md\" \"D:/DESKTOP/Arivechi-v2/\")",
+      "Bash(mv \"D:/DESKTOP/arivechi-v2-bootstrap/README.md\" \"D:/DESKTOP/Arivechi-v2/\")",
+      "Bash(mv \"D:/DESKTOP/arivechi-v2-bootstrap/app\" \"D:/DESKTOP/Arivechi-v2/\")",
+      "Bash(rm \"D:/DESKTOP/Arivechi-v2/public/file.svg\" \"D:/DESKTOP/Arivechi-v2/public/globe.svg\" \"D:/DESKTOP/Arivechi-v2/public/next.svg\" \"D:/DESKTOP/Arivechi-v2/public/vercel.svg\" \"D:/DESKTOP/Arivechi-v2/public/window.svg\")",
+      "Bash(rm \"D:/DESKTOP/Arivechi-v2/AGENTS.md\" \"D:/DESKTOP/Arivechi-v2/CLAUDE.md\")",
+      "Bash(mkdir -p \"D:/DESKTOP/Arivechi-v2/public/leyes\" \"D:/DESKTOP/Arivechi-v2/public/og\" \"D:/DESKTOP/Arivechi-v2/lib\" \"D:/DESKTOP/Arivechi-v2/components/layout\" \"D:/DESKTOP/Arivechi-v2/components/ui\" \"D:/DESKTOP/Arivechi-v2/components/home\" \"D:/DESKTOP/Arivechi-v2/components/gobierno\" \"D:/DESKTOP/Arivechi-v2/components/noticias\" \"D:/DESKTOP/Arivechi-v2/components/transparencia\" \"D:/DESKTOP/Arivechi-v2/components/turismo\" \"D:/DESKTOP/Arivechi-v2/components/contacto\")",
+      "Bash(mv \"D:/DESKTOP/_arivechi-temp-assets/escudo-arivechi-hd.png\" \"D:/DESKTOP/Arivechi-v2/public/\")",
+      "Bash(mv \"D:/DESKTOP/_arivechi-temp-assets/ley-general-transparencia.pdf\" \"D:/DESKTOP/Arivechi-v2/public/leyes/\")",
+      "Bash(npm install *)",
+      "Bash(grep -E \"^\\(lucide-react|framer-motion|embla-carousel-react|@radix-ui|react-aria|@vercel|next-cloudinary|fuse|clsx|tailwind-merge|date-fns|sharp\\)$\")",
+      "Bash(node -p 'require\\('\\\\''D:/DESKTOP/Arivechi-v2/node_modules/__TRACKED_VAR__/package.json'\\\\''\\).version')",
+      "Bash(node -p \"require\\('D:/DESKTOP/Arivechi-v2/node_modules/framer-motion/package.json'\\).version\")",
+      "Bash(node -p \"require\\('D:/DESKTOP/Arivechi-v2/node_modules/react-aria-components/package.json'\\).version\")",
+      "Bash(node -p \"require\\('D:/DESKTOP/Arivechi-v2/node_modules/date-fns/package.json'\\).version\")",
+      "Bash(node -p \"require\\('D:/DESKTOP/Arivechi-v2/node_modules/@vercel/analytics/package.json'\\).version\")",
+      "Bash(node -p \"require\\('D:/DESKTOP/Arivechi-v2/node_modules/@vercel/speed-insights/package.json'\\).version\")",
+      "Bash(npm ls *)",
+      "Bash(npm run *)",
+      "Bash(next build *)",
+      "Bash(./node_modules/.bin/next build *)",
+      "Bash(echo \"EXIT=$?\")",
+      "Read(//tmp/**)",
+      "PowerShell(Set-Location \"D:\\\\DESKTOP\\\\Arivechi-v2\"; $output = & npm run build 2>&1; $output | Out-File -FilePath \"build.log\" -Encoding utf8; \"EXIT=$LASTEXITCODE\"; Get-Content \"build.log\" | Select-Object -Last 80)",
+      "PowerShell(Set-Location \"D:\\\\DESKTOP\\\\Arivechi-v2\"; \"--- build.log size ---\"; \\(Get-Item \"build.log\"\\).Length; \"--- build.log content ---\"; Get-Content \"build.log\" -Raw; \"--- .next exists? ---\"; Test-Path \".next\"; if \\(Test-Path \".next\"\\) { Get-ChildItem \".next\" | Select-Object Name | Format-Table -AutoSize })",
+      "PowerShell(Set-Location \"D:\\\\DESKTOP\\\\Arivechi-v2\"; \"--- via npx ---\"; $out = npx --no next build 2>&1 | Out-String; $out; \"--- EXIT=$LASTEXITCODE ---\"; \"--- .next now? ---\"; Test-Path \".next\")",
+      "PowerShell(Set-Location \"D:\\\\DESKTOP\\\\Arivechi-v2\"; \"--- direct node invocation ---\"; node \"./node_modules/next/dist/bin/next\" build 2>&1 | Out-String; \"--- EXIT=$LASTEXITCODE ---\"; \"--- .next? ---\"; Test-Path \".next\")"
+    ]
+  }
+}
