@@ -120,7 +120,7 @@ export function ConoceArivechi() {
               />
             </Link>
             <Link
-              href="/gobierno"
+              href="/gobierno/directorio"
               className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-white px-6 py-3 text-sm font-semibold text-[var(--color-text)] transition hover:border-[var(--color-guinda)] hover:text-[var(--color-guinda)]"
             >
               Conoce el Gobierno
