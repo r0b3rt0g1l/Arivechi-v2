@@ -61,7 +61,7 @@ const META = [
     title: "Gobierno Municipal de Arivechi",
     subtitle:
       "Una administración cercana a la gente, con transparencia, rendición de cuentas y trabajo en equipo.",
-    cta: { label: "Conoce el Gabinete", href: "/gobierno/directorio" },
+    cta: { label: "Conoce el Gobierno", href: "/gobierno/directorio" },
     align: "center",
   },
 ];
