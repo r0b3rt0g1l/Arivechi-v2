@@ -25,7 +25,10 @@ términos exactos de autoría y licencia antes de cualquier reuso público.
 - **Resolución descargada**: 2856 × 1904
 - **Descripción**: Vista panorámica con vegetación de matorral y flores en
   primer plano, nubes cúmulus al fondo. Sin elementos modernos.
-- **Uso**: respaldo / variantes futuras.
+- **Uso**: imagen del slide `bienvenida` del HeroCarousel del home
+  (eyebrow "Lugar de la Calavera"). Reemplazó a una imagen aleatoria de
+  Lorem Flickr que devolvía resultados inadecuados con la query
+  `mexico,sonora,mountain,sunrise,landscape`.
 - **Licencia**: ver página de archivo en Commons.
 
 ### `quiosco-morisco.jpg`
