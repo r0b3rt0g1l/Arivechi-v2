@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
   Calendar,
@@ -14,6 +13,7 @@ import {
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const HERO_IMAGE = "/images/arivechi/panorama-sierra-madre.jpg";
+const TEXT_SHADOW = "0 2px 8px rgba(0,0,0,0.7)";
 
 const features = [
   {
@@ -58,80 +58,127 @@ const cardItem = {
   },
 };
 
-function Paragraph({ eyebrow, texto, dropCap = false, delay = 0, reduce }) {
+const ALIGN = {
+  left: "justify-start",
+  right: "justify-end",
+  center: "justify-center",
+};
+
+function HeroBlock({ reduce }) {
   return (
-    <motion.article
-      initial={reduce ? false : { opacity: 0, y: 30 }}
-      whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
-      className="mx-auto max-w-prose"
+    <div
+      className="relative flex min-h-dvh items-end px-6 pb-16 pt-28 sm:px-10 lg:px-16 lg:pb-20"
+      role="region"
+      aria-labelledby="historia-titulo"
     >
-      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-dorado-700)]">
-        {eyebrow}
-      </p>
-      {dropCap ? (
-        <p className="mt-4 text-lg leading-[1.75] text-[var(--color-text)] first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:font-display first-letter:text-7xl first-letter:font-bold first-letter:leading-[0.85] first-letter:text-[var(--color-guinda)]">
-          {texto}
+      <motion.div
+        initial={reduce ? false : { opacity: 0, y: 60 }}
+        whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+        viewport={{ once: false, margin: "-30%" }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="max-w-3xl"
+        style={{ textShadow: TEXT_SHADOW }}
+      >
+        <p
+          id="historia-eyebrow"
+          className="inline-flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.28em] text-[var(--color-dorado)]"
+        >
+          <span
+            aria-hidden="true"
+            className="block h-px w-8 bg-[var(--color-dorado)]"
+          />
+          Historia
         </p>
-      ) : (
-        <p className="mt-4 text-lg leading-[1.75] text-[var(--color-text)]">
-          {texto}
+        <h2
+          id="historia-titulo"
+          className="mt-4 font-display text-5xl font-semibold leading-[1.05] tracking-tight text-balance text-white lg:text-7xl"
+        >
+          Lugar de las Calaveras
+        </h2>
+        <p className="mt-5 max-w-xl text-base text-white/85 lg:text-lg">
+          Un pueblo con raíces ópatas en la Sierra Madre Occidental.
         </p>
-      )}
-    </motion.article>
+      </motion.div>
+    </div>
+  );
+}
+
+function NarrativeBlock({ eyebrow, children, align = "left", reduce, id }) {
+  return (
+    <div
+      role="region"
+      aria-labelledby={id}
+      className={`relative flex min-h-dvh items-center px-6 py-16 sm:px-10 lg:px-16 ${ALIGN[align]}`}
+    >
+      <motion.div
+        initial={reduce ? false : { opacity: 0, y: 60 }}
+        whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+        viewport={{ once: false, margin: "-30%" }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="w-full max-w-2xl rounded-xl border border-white/5 bg-black/40 p-8 backdrop-blur-md lg:p-12"
+      >
+        <p
+          id={id}
+          className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--color-dorado)]"
+        >
+          {eyebrow}
+        </p>
+        <p className="mt-4 text-lg leading-relaxed text-white lg:text-xl">
+          {children}
+        </p>
+      </motion.div>
+    </div>
   );
 }
 
 function PullQuote({ children, reduce }) {
   return (
-    <motion.figure
-      initial={reduce ? false : { opacity: 0 }}
-      whileInView={reduce ? undefined : { opacity: 1 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className="mx-auto my-16 max-w-3xl py-12 lg:py-16"
+    <div
+      role="region"
+      aria-label="Cita destacada"
+      className="relative flex min-h-dvh items-center justify-center px-6 py-16"
     >
-      <span
-        aria-hidden="true"
-        className="mx-auto mb-6 block h-px w-20 bg-[var(--color-dorado)]"
-      />
-      <blockquote className="text-center font-display text-4xl italic font-medium leading-[1.2] text-balance text-[var(--color-guinda)] lg:text-6xl">
-        {children}
-      </blockquote>
-      <span
-        aria-hidden="true"
-        className="mx-auto mt-6 block h-px w-20 bg-[var(--color-dorado)]"
-      />
-    </motion.figure>
+      <motion.figure
+        initial={reduce ? false : { opacity: 0, scale: 0.9 }}
+        whileInView={reduce ? undefined : { opacity: 1, scale: 1 }}
+        viewport={{ once: false, margin: "-30%" }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+        className="max-w-3xl text-center"
+        style={{ textShadow: TEXT_SHADOW }}
+      >
+        <blockquote className="font-display text-5xl italic font-medium leading-[1.15] text-balance text-[var(--color-dorado)] lg:text-7xl">
+          {children}
+        </blockquote>
+      </motion.figure>
+    </div>
   );
 }
 
-function BigStat({ number, caption, reduce }) {
+function BigStat({ number, unit, caption, reduce }) {
   return (
-    <div className="mx-auto my-16 flex max-w-2xl flex-col items-center py-12 text-center lg:py-16">
-      <motion.p
-        initial={reduce ? false : { opacity: 0, y: 16, scale: 0.9 }}
-        whileInView={reduce ? undefined : { opacity: 1, y: 0, scale: 1 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="font-display text-6xl font-bold leading-none text-[var(--color-guinda)] lg:text-7xl"
+    <div
+      role="region"
+      aria-label="Dato destacado"
+      className="relative flex min-h-dvh items-center justify-center px-6 py-16"
+    >
+      <motion.div
+        initial={reduce ? false : { opacity: 0, scale: 0.9 }}
+        whileInView={reduce ? undefined : { opacity: 1, scale: 1 }}
+        viewport={{ once: false, margin: "-30%" }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+        className="max-w-3xl text-center"
+        style={{ textShadow: TEXT_SHADOW }}
       >
-        {number}
-      </motion.p>
-      <motion.p
-        initial={reduce ? false : { opacity: 0, y: 12 }}
-        whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{
-          duration: 0.6,
-          delay: 0.2,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-        className="mt-4 max-w-xl text-base leading-relaxed text-[var(--color-guinda-deep)] lg:text-lg"
-      >
-        {caption}
-      </motion.p>
+        <p className="font-display text-7xl font-bold leading-none text-[var(--color-dorado)] lg:text-9xl">
+          {number}
+        </p>
+        <p className="mt-3 font-display text-3xl text-white/95 lg:text-5xl">
+          {unit}
+        </p>
+        <p className="mx-auto mt-5 max-w-xl text-base text-white/80 lg:text-lg">
+          {caption}
+        </p>
+      </motion.div>
     </div>
   );
 }
@@ -139,149 +186,115 @@ function BigStat({ number, caption, reduce }) {
 export function ConoceArivechi() {
   const reduce = useReducedMotion();
 
-  const heroRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, -120]);
-
   return (
-    <section
-      id="historia"
-      aria-label="Historia de Arivechi"
-      className="relative overflow-hidden"
-    >
-      {/* ESCENA 1 — Heroica full-bleed */}
-      <div
-        ref={heroRef}
-        className="relative aspect-[4/3] w-full overflow-hidden bg-black md:aspect-video lg:h-[80vh] lg:max-h-[820px]"
+    <>
+      {/* HISTORIA — sticky storytelling NYT-style */}
+      <section
+        id="historia"
+        aria-label="Historia de Arivechi"
+        className="relative bg-black"
       >
-        <motion.div
-          initial={reduce ? false : { scale: 1.05, opacity: 0 }}
-          animate={reduce ? false : { scale: 1, opacity: 1 }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          style={
+        {/* Imagen sticky de background */}
+        <div
+          className={
             reduce
-              ? undefined
-              : { y: heroY, willChange: "transform, opacity" }
+              ? "relative h-dvh w-full overflow-hidden"
+              : "sticky top-0 h-dvh w-full overflow-hidden"
           }
-          className="absolute inset-0"
         >
           <Image
             src={HERO_IMAGE}
-            alt="Panorámica de la Sierra Madre Occidental con nubes flotando entre las montañas, paisaje serrano característico de la región de Arivechi"
+            alt="Panorámica de la Sierra Madre Occidental con nubes flotando entre las montañas"
             fill
             priority
             sizes="100vw"
             quality={90}
             className="object-cover object-center"
           />
-        </motion.div>
-
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent"
-        />
-
-        {/* Tinte guinda institucional sutil sobre la imagen */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-[rgba(107,22,41,0.20)]"
-        />
-
-        {/* Continuidad: funde los últimos px de la heroica al fondo crema #FAFAF7 */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-b from-transparent to-[#FAFAF7] lg:h-24"
-        />
-
-        <div className="absolute inset-x-0 bottom-0 z-10">
-          <div className="mx-auto max-w-7xl px-8 pb-12 lg:px-16 lg:pb-20">
-            <motion.p
-              initial={reduce ? false : { opacity: 0, y: 16 }}
-              animate={reduce ? false : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-dorado)]"
-            >
-              Historia
-            </motion.p>
-            <motion.h2
-              initial={reduce ? false : { opacity: 0, y: 24 }}
-              animate={reduce ? false : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-3 max-w-4xl font-display text-5xl font-semibold leading-[1.05] tracking-tight text-balance text-white drop-shadow-lg lg:text-7xl"
-            >
-              Lugar de las Calaveras
-            </motion.h2>
-            <motion.p
-              initial={reduce ? false : { opacity: 0, y: 16 }}
-              animate={reduce ? false : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-5 max-w-xl text-base text-white/85 lg:text-lg"
-            >
-              Un pueblo con raíces ópatas en la Sierra Madre Occidental.
-            </motion.p>
-          </div>
-        </div>
-      </div>
-
-      {/* ESCENA 2 — Editorial una columna con pull-quote y stat destacado */}
-      <div className="bg-[#FAFAF7]">
-        <div className="mx-auto max-w-3xl px-6 py-20 lg:py-32">
-          <Paragraph
-            reduce={reduce}
-            eyebrow="Origen"
-            dropCap
-            delay={0}
-            texto="Fundado en 1627 por el misionero jesuita Pedro Méndez bajo el nombre de San Javier de Arivechi, una misión religiosa establecida para evangelizar a las tribus ópatas que habitaban la región."
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/70"
           />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-[rgba(107,22,41,0.20)]"
+          />
+        </div>
 
-          <div className="mt-12">
-            <Paragraph
-              reduce={reduce}
-              eyebrow="Significado"
-              delay={0.05}
-              texto="Su nombre proviene del idioma ópata Arivetzi, que significa “Lugar de las Calaveras” — de las raíces Arive (calavera) y Tzi (lugar). Hoy alberga 635 habitantes en la cabecera y 1,177 en todo el municipio."
-            />
-          </div>
+        {/* Texto narrativo encima — superposición con margen negativo */}
+        <div className={reduce ? "relative z-10" : "relative z-10 -mt-[100dvh]"}>
+          <HeroBlock reduce={reduce} />
+
+          <NarrativeBlock
+            id="historia-origen"
+            eyebrow="Origen"
+            align="left"
+            reduce={reduce}
+          >
+            Fundado en 1627 por el misionero jesuita Pedro Méndez bajo el nombre
+            de San Javier de Arivechi, una misión religiosa establecida para
+            evangelizar a las tribus ópatas que habitaban la región.
+          </NarrativeBlock>
+
+          <NarrativeBlock
+            id="historia-significado"
+            eyebrow="Significado"
+            align="right"
+            reduce={reduce}
+          >
+            Su nombre proviene del idioma ópata Arivetzi, que significa
+            &ldquo;Lugar de las Calaveras&rdquo; — de las raíces Arive (calavera)
+            y Tzi (lugar). Hoy alberga 635 habitantes en la cabecera y 1,177 en
+            todo el municipio.
+          </NarrativeBlock>
 
           <PullQuote reduce={reduce}>
-            «Arivetzi — Lugar de las Calaveras»
+            «Arivetzi —<br />Lugar de las Calaveras»
           </PullQuote>
 
-          <Paragraph
-            reduce={reduce}
+          <NarrativeBlock
+            id="historia-patrimonio"
             eyebrow="Patrimonio"
-            delay={0.05}
-            texto="Su plaza monumental ostenta una singular obra arquitectónica: un kiosco que es réplica del Pabellón Morisco de la colonia Santa María la Ribera en la Ciudad de México, con vitrales que retratan paisajes, fauna y flora locales."
-          />
+            align="left"
+            reduce={reduce}
+          >
+            Su plaza monumental ostenta una singular obra arquitectónica: un
+            kiosco que es réplica del Pabellón Morisco de la colonia Santa María
+            la Ribera en la Ciudad de México, con vitrales que retratan paisajes,
+            fauna y flora locales.
+          </NarrativeBlock>
 
           <BigStat
             reduce={reduce}
-            number="500 millones"
-            caption="de años de antigüedad de los fósiles marinos del Cerro de las Conchas, descubiertos en la región en 2016."
+            number="500"
+            unit="millones de años"
+            caption="de antigüedad de los fósiles marinos del Cerro de las Conchas, descubiertos en 2016."
           />
 
-          <Paragraph
-            reduce={reduce}
+          <NarrativeBlock
+            id="historia-naturaleza"
             eyebrow="Naturaleza"
-            delay={0.05}
-            texto="En 2010, la zona del Cerro de las Conchas fue decretada Área Natural Protegida. En 2016, investigadores descubrieron en la región fósiles marinos de más de 500 millones de años, del periodo cámbrico."
+            align="right"
+            reduce={reduce}
+          >
+            En 2010, la zona del Cerro de las Conchas fue decretada Área Natural
+            Protegida por su biodiversidad endémica y sus formaciones geológicas
+            únicas en el noroeste de México.
+          </NarrativeBlock>
+
+          {/* Transición fade hacia el siguiente bloque guinda */}
+          <div
+            aria-hidden="true"
+            className="relative h-[50vh] min-h-[300px] w-full bg-gradient-to-b from-transparent via-[rgba(107,22,41,0.5)] to-[var(--color-guinda)]"
           />
         </div>
-      </div>
+      </section>
 
-      {/* BANDA TRANSICIONAL — del editorial crema al guinda institucional */}
-      <div
-        aria-hidden="true"
-        className="flex h-20 items-center justify-center bg-gradient-to-b from-[#FAFAF7] to-[var(--color-guinda)] lg:h-24"
+      {/* DATOS DEL MUNICIPIO — sección guinda preservada de T22 */}
+      <section
+        aria-label="Datos del municipio"
+        className="bg-[var(--color-guinda)]"
       >
-        <span className="block h-px w-32 bg-[var(--color-dorado)]" />
-      </div>
-
-      {/* ESCENA 3 — Cards de datos sobre fondo guinda */}
-      <div className="bg-[var(--color-guinda)]">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20">
           <header className="mb-8 max-w-2xl">
             <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.28em] text-[var(--color-dorado)]">
@@ -345,8 +358,8 @@ export function ConoceArivechi() {
             </Link>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
 
