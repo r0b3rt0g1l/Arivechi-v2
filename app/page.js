@@ -1,9 +1,7 @@
 import { municipalConfig } from "@/lib/municipalConfig";
 import { buildMetadata } from "@/lib/seo";
 import { getNoticiasRecientes } from "@/lib/noticias";
-import { bannersUnificados } from "@/lib/banners";
 import { HeroCarousel } from "@/components/home/HeroCarousel";
-import { BannerCarousel } from "@/components/home/BannerCarousel";
 import { AccionesRecientes } from "@/components/home/AccionesRecientes";
 import { ConoceArivechi } from "@/components/home/ConoceArivechi";
 
@@ -20,7 +18,6 @@ export default function HomePage() {
   return (
     <main className="flex flex-1 flex-col">
       <HeroCarousel />
-      <BannerCarousel items={bannersUnificados} />
       <ConoceArivechi />
       <AccionesRecientes noticias={noticiasRecientes} />
     </main>
