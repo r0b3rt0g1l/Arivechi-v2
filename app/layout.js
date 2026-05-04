@@ -2,7 +2,6 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { playfair, inter, mono } from "@/lib/fonts";
 import { buildMetadata, defaultViewport } from "@/lib/seo";
-import { TopBar } from "@/components/layout/TopBar";
 import { MainNav } from "@/components/layout/MainNav";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
@@ -24,7 +23,6 @@ export default function RootLayout({ children }) {
         >
           Saltar al contenido principal
         </a>
-        <TopBar />
         <MainNav />
         <div id="contenido-principal" className="flex flex-1 flex-col">
           {children}
