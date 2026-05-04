@@ -1,8 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useRef } from "react";
+import { motion } from "framer-motion";
 import { ArrowRight, MapPin, Calendar, Mountain, Users } from "lucide-react";
 import { municipalConfig } from "@/lib/municipalConfig";
 import { conoceArivechi } from "@/lib/unsplashImages";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useParallax } from "@/hooks/useParallax";
 
 const features = [
   {
@@ -31,16 +37,79 @@ const features = [
   },
 ];
 
+const hitos = [
+  {
+    ano: "1627",
+    evento:
+      "Misión jesuita fundada por el padre Pedro Méndez bajo la advocación de San Francisco Javier de Arivechi.",
+  },
+  {
+    ano: "1678",
+    evento:
+      "Arivechi se convierte en cabecera de rectorado de la región serrana.",
+  },
+  {
+    ano: "1913",
+    evento:
+      "Memoria revolucionaria — paso de Francisco Villa por la localidad de Tarachi.",
+  },
+  {
+    ano: "1932",
+    evento:
+      "Decretado municipio libre del estado de Sonora el 12 de abril.",
+  },
+  {
+    ano: "2010",
+    evento:
+      "Cerro de las Conchas declarado Área Natural Protegida por sus fósiles cámbricos.",
+  },
+];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.05 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
 export function ConoceArivechi() {
   const { identidad } = municipalConfig;
+  const reduce = useReducedMotion();
+  const sectionRef = useRef(null);
+  const { translateY } = useParallax(sectionRef, 0.18);
+
+  const motionContainer = reduce
+    ? {}
+    : {
+        variants: containerVariants,
+        initial: "hidden",
+        whileInView: "visible",
+        viewport: { once: true, margin: "-80px" },
+      };
+  const motionItem = reduce ? {} : { variants: itemVariants };
 
   return (
     <section
-      aria-label="Conoce Arivechi"
-      className="bg-[var(--color-bg)]"
+      ref={sectionRef}
+      id="historia"
+      aria-label="Historia de Arivechi"
+      className="relative overflow-hidden bg-[var(--color-bg)]"
     >
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 md:py-24 lg:grid-cols-2 lg:items-center">
-        <div className="relative">
+        <motion.div
+          className="relative"
+          style={reduce ? undefined : { y: translateY, willChange: "transform" }}
+        >
           <div className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-[var(--shadow-card-hover)]">
             <Image
               src={conoceArivechi.src}
@@ -67,25 +136,60 @@ export function ConoceArivechi() {
               región.
             </p>
           </div>
-        </div>
+        </motion.div>
 
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-guinda)]">
-            Conoce Arivechi
-          </p>
-          <h2 className="mt-2 font-display text-3xl font-bold tracking-tight md:text-4xl">
-            Un pueblo con raíces ópatas en la Sierra Madre Occidental
-          </h2>
-          <p className="mt-4 text-base leading-relaxed text-[var(--color-text-secondary)] md:text-lg">
-            Fundado en {identidad.fundacion.anio} con la{" "}
-            {identidad.fundacion.texto.toLowerCase()}, Arivechi fue decretado
-            municipio libre el {identidad.municipioLibre}. Hoy es un destino
-            que combina patrimonio histórico, tradición ópata y paisajes
-            naturales únicos como el Cerro de las Conchas, Área Natural
-            Protegida con fósiles cámbricos de más de 500 millones de años.
-          </p>
+        <motion.div {...motionContainer}>
+          <motion.p
+            {...motionItem}
+            className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-guinda)]"
+          >
+            Historia
+          </motion.p>
+          <motion.h2
+            {...motionItem}
+            className="mt-2 font-display text-3xl font-bold tracking-tight md:text-4xl"
+          >
+            Lugar de las Calaveras
+          </motion.h2>
 
-          <dl className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
+          <motion.p
+            {...motionItem}
+            className="mt-5 text-base leading-relaxed text-[var(--color-text-secondary)] md:text-lg"
+          >
+            Fundado en 1627 en la Sierra Madre Occidental, Arivechi es uno de
+            los municipios con mayor riqueza histórica y natural del estado de
+            Sonora. El nombre proviene del vocablo ópata{" "}
+            <em>Arivetzi</em>, que significa &ldquo;lugar de las
+            calaveras&rdquo;.
+          </motion.p>
+
+          <motion.p
+            {...motionItem}
+            className="mt-4 text-base leading-relaxed text-[var(--color-text-secondary)] md:text-lg"
+          >
+            La población fue fundada como misión jesuita por el padre Pedro
+            Méndez, bajo la advocación de San Francisco Javier de Arivechi, en
+            territorio de la tribu ópata. Los ópatas fueron una de las
+            civilizaciones más avanzadas del noroeste de México: su legado
+            pervive en el nombre del municipio, en la toponimia de la región y
+            en las tradiciones culturales que aún se celebran.
+          </motion.p>
+
+          <motion.p
+            {...motionItem}
+            className="mt-4 text-base leading-relaxed text-[var(--color-text-secondary)] md:text-lg"
+          >
+            Tras siglos de transformaciones —cabecera de rectorado en 1678,
+            escenario revolucionario en 1913 y municipio libre desde 1932—
+            Arivechi conserva su identidad y mira al futuro. El Cerro de las
+            Conchas, declarado Área Natural Protegida en 2010, alberga fósiles
+            cámbricos con más de 500 millones de años de antigüedad.
+          </motion.p>
+
+          <motion.dl
+            {...motionItem}
+            className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4"
+          >
             {features.map(({ icon: Icon, label, value, detail }) => (
               <div
                 key={label}
@@ -106,9 +210,9 @@ export function ConoceArivechi() {
                 </dd>
               </div>
             ))}
-          </dl>
+          </motion.dl>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <motion.div {...motionItem} className="mt-8 flex flex-wrap gap-3">
             <Link
               href="/turismo"
               className="group inline-flex items-center gap-2 rounded-full bg-[var(--color-guinda)] px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--color-guinda-deep)]"
@@ -125,7 +229,43 @@ export function ConoceArivechi() {
             >
               Conoce el Gobierno
             </Link>
-          </div>
+          </motion.div>
+        </motion.div>
+      </div>
+
+      <div className="border-t border-[var(--color-border)] bg-white">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
+          <header className="mb-8 max-w-2xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-guinda)]">
+              Línea del tiempo
+            </p>
+            <h3 className="mt-2 font-display text-2xl font-bold tracking-tight md:text-3xl">
+              Hitos del municipio
+            </h3>
+          </header>
+
+          <motion.ol
+            variants={reduce ? undefined : containerVariants}
+            initial={reduce ? undefined : "hidden"}
+            whileInView={reduce ? undefined : "visible"}
+            viewport={{ once: true, margin: "-80px" }}
+            className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5"
+          >
+            {hitos.map((h) => (
+              <motion.li
+                key={h.ano}
+                variants={reduce ? undefined : itemVariants}
+                className="flex flex-col rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] p-5 shadow-[var(--shadow-card)]"
+              >
+                <span className="font-display text-2xl font-bold text-[var(--color-guinda)]">
+                  {h.ano}
+                </span>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--color-text-secondary)]">
+                  {h.evento}
+                </p>
+              </motion.li>
+            ))}
+          </motion.ol>
         </div>
       </div>
     </section>
