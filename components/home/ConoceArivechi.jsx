@@ -15,29 +15,6 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const HERO_IMAGE = "/images/arivechi/panorama-sierra-madre.jpg";
 
-const parrafos = [
-  {
-    eyebrow: "Origen",
-    texto:
-      "Fundado en 1627 por el misionero jesuita Pedro Méndez bajo el nombre de San Javier de Arivechi, una misión religiosa establecida para evangelizar a las tribus ópatas que habitaban la región.",
-  },
-  {
-    eyebrow: "Significado",
-    texto:
-      "Su nombre proviene del idioma ópata Arivetzi, que significa “Lugar de las Calaveras” — de las raíces Arive (calavera) y Tzi (lugar). Hoy alberga 635 habitantes en la cabecera y 1,177 en todo el municipio.",
-  },
-  {
-    eyebrow: "Patrimonio",
-    texto:
-      "Su plaza monumental ostenta una singular obra arquitectónica: un kiosco que es réplica del Pabellón Morisco de la colonia Santa María la Ribera en la Ciudad de México, con vitrales que retratan paisajes, fauna y flora locales.",
-  },
-  {
-    eyebrow: "Naturaleza",
-    texto:
-      "En 2010, la zona del Cerro de las Conchas fue decretada Área Natural Protegida. En 2016, investigadores descubrieron en la región fósiles marinos de más de 500 millones de años, del periodo cámbrico.",
-  },
-];
-
 const features = [
   {
     icon: Calendar,
@@ -80,6 +57,84 @@ const cardItem = {
     transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
   },
 };
+
+function Paragraph({ eyebrow, texto, dropCap = false, delay = 0, reduce }) {
+  return (
+    <motion.article
+      initial={reduce ? false : { opacity: 0, y: 30 }}
+      whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
+      className="mx-auto max-w-prose"
+    >
+      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-dorado-700)]">
+        {eyebrow}
+      </p>
+      {dropCap ? (
+        <p className="mt-4 text-lg leading-[1.75] text-[var(--color-text)] first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:font-display first-letter:text-7xl first-letter:font-bold first-letter:leading-[0.85] first-letter:text-[var(--color-guinda)]">
+          {texto}
+        </p>
+      ) : (
+        <p className="mt-4 text-lg leading-[1.75] text-[var(--color-text)]">
+          {texto}
+        </p>
+      )}
+    </motion.article>
+  );
+}
+
+function PullQuote({ children, reduce }) {
+  return (
+    <motion.figure
+      initial={reduce ? false : { opacity: 0 }}
+      whileInView={reduce ? undefined : { opacity: 1 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      className="mx-auto my-16 max-w-3xl py-12 lg:py-16"
+    >
+      <span
+        aria-hidden="true"
+        className="mx-auto mb-6 block h-px w-20 bg-[var(--color-dorado)]"
+      />
+      <blockquote className="text-center font-display text-4xl italic font-medium leading-[1.2] text-balance text-[var(--color-guinda)] lg:text-6xl">
+        {children}
+      </blockquote>
+      <span
+        aria-hidden="true"
+        className="mx-auto mt-6 block h-px w-20 bg-[var(--color-dorado)]"
+      />
+    </motion.figure>
+  );
+}
+
+function BigStat({ number, caption, reduce }) {
+  return (
+    <div className="mx-auto my-16 flex max-w-2xl flex-col items-center py-12 text-center lg:py-16">
+      <motion.p
+        initial={reduce ? false : { opacity: 0, y: 16, scale: 0.9 }}
+        whileInView={reduce ? undefined : { opacity: 1, y: 0, scale: 1 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        className="font-display text-6xl font-bold leading-none text-[var(--color-guinda)] lg:text-7xl"
+      >
+        {number}
+      </motion.p>
+      <motion.p
+        initial={reduce ? false : { opacity: 0, y: 12 }}
+        whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{
+          duration: 0.6,
+          delay: 0.2,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+        className="mt-4 max-w-xl text-base leading-relaxed text-[var(--color-guinda-deep)] lg:text-lg"
+      >
+        {caption}
+      </motion.p>
+    </div>
+  );
+}
 
 export function ConoceArivechi() {
   const reduce = useReducedMotion();
@@ -129,6 +184,12 @@ export function ConoceArivechi() {
           className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent"
         />
 
+        {/* Continuidad: funde los últimos px de la heroica al fondo crema #FAFAF7 */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-b from-transparent to-[#FAFAF7] lg:h-24"
+        />
+
         <div className="absolute inset-x-0 bottom-0 z-10">
           <div className="mx-auto max-w-7xl px-8 pb-12 lg:px-16 lg:pb-20">
             <motion.p
@@ -159,36 +220,49 @@ export function ConoceArivechi() {
         </div>
       </div>
 
-      {/* ESCENA 2 — Editorial una columna */}
+      {/* ESCENA 2 — Editorial una columna con pull-quote y stat destacado */}
       <div className="bg-[#FAFAF7]">
-        <div className="mx-auto max-w-prose px-6 py-20 lg:py-32">
-          {parrafos.map((p, i) => (
-            <motion.article
-              key={p.eyebrow}
-              initial={reduce ? false : { opacity: 0, y: 30 }}
-              whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{
-                duration: 0.6,
-                delay: i * 0.05,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className={i === 0 ? "mt-0" : "mt-12"}
-            >
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-dorado-700)]">
-                {p.eyebrow}
-              </p>
-              {i === 0 ? (
-                <p className="mt-4 text-lg leading-[1.75] text-[var(--color-text)] first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:font-display first-letter:text-7xl first-letter:font-bold first-letter:leading-[0.85] first-letter:text-[var(--color-guinda)]">
-                  {p.texto}
-                </p>
-              ) : (
-                <p className="mt-4 text-lg leading-[1.75] text-[var(--color-text)]">
-                  {p.texto}
-                </p>
-              )}
-            </motion.article>
-          ))}
+        <div className="mx-auto max-w-3xl px-6 py-20 lg:py-32">
+          <Paragraph
+            reduce={reduce}
+            eyebrow="Origen"
+            dropCap
+            delay={0}
+            texto="Fundado en 1627 por el misionero jesuita Pedro Méndez bajo el nombre de San Javier de Arivechi, una misión religiosa establecida para evangelizar a las tribus ópatas que habitaban la región."
+          />
+
+          <div className="mt-12">
+            <Paragraph
+              reduce={reduce}
+              eyebrow="Significado"
+              delay={0.05}
+              texto="Su nombre proviene del idioma ópata Arivetzi, que significa “Lugar de las Calaveras” — de las raíces Arive (calavera) y Tzi (lugar). Hoy alberga 635 habitantes en la cabecera y 1,177 en todo el municipio."
+            />
+          </div>
+
+          <PullQuote reduce={reduce}>
+            «Arivetzi — Lugar de las Calaveras»
+          </PullQuote>
+
+          <Paragraph
+            reduce={reduce}
+            eyebrow="Patrimonio"
+            delay={0.05}
+            texto="Su plaza monumental ostenta una singular obra arquitectónica: un kiosco que es réplica del Pabellón Morisco de la colonia Santa María la Ribera en la Ciudad de México, con vitrales que retratan paisajes, fauna y flora locales."
+          />
+
+          <BigStat
+            reduce={reduce}
+            number="500 millones"
+            caption="de años de antigüedad de los fósiles marinos del Cerro de las Conchas, descubiertos en la región en 2016."
+          />
+
+          <Paragraph
+            reduce={reduce}
+            eyebrow="Naturaleza"
+            delay={0.05}
+            texto="En 2010, la zona del Cerro de las Conchas fue decretada Área Natural Protegida. En 2016, investigadores descubrieron en la región fósiles marinos de más de 500 millones de años, del periodo cámbrico."
+          />
         </div>
       </div>
 
