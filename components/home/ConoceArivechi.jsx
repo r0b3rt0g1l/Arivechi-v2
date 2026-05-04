@@ -184,6 +184,12 @@ export function ConoceArivechi() {
           className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent"
         />
 
+        {/* Tinte guinda institucional sutil sobre la imagen */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[rgba(107,22,41,0.20)]"
+        />
+
         {/* Continuidad: funde los últimos px de la heroica al fondo crema #FAFAF7 */}
         <div
           aria-hidden="true"
@@ -266,14 +272,26 @@ export function ConoceArivechi() {
         </div>
       </div>
 
-      {/* ESCENA 3 — Cards de datos + CTAs (transición visual) */}
-      <div className="bg-gradient-to-b from-[#FAFAF7] to-white">
+      {/* BANDA TRANSICIONAL — del editorial crema al guinda institucional */}
+      <div
+        aria-hidden="true"
+        className="flex h-20 items-center justify-center bg-gradient-to-b from-[#FAFAF7] to-[var(--color-guinda)] lg:h-24"
+      >
+        <span className="block h-px w-32 bg-[var(--color-dorado)]" />
+      </div>
+
+      {/* ESCENA 3 — Cards de datos sobre fondo guinda */}
+      <div className="bg-[var(--color-guinda)]">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20">
           <header className="mb-8 max-w-2xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-dorado-700)]">
+            <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.28em] text-[var(--color-dorado)]">
+              <span
+                aria-hidden="true"
+                className="block h-px w-8 bg-[var(--color-dorado)]"
+              />
               Datos del municipio
             </p>
-            <h3 className="mt-2 font-display text-2xl font-bold tracking-tight md:text-3xl">
+            <h3 className="mt-3 font-display text-2xl font-bold tracking-tight text-white md:text-3xl">
               Arivechi en cifras
             </h3>
           </header>
@@ -289,19 +307,19 @@ export function ConoceArivechi() {
               <motion.div
                 key={label}
                 variants={reduce ? undefined : cardItem}
-                className="rounded-xl border border-[var(--color-border)] bg-white p-5 text-left shadow-[var(--shadow-card)]"
+                className="rounded-xl border border-[var(--color-dorado)]/30 bg-[var(--color-guinda-deep)] p-5 text-left shadow-[0_10px_30px_-12px_rgba(0,0,0,0.4)] transition-all duration-200 hover:-translate-y-1 hover:border-[var(--color-dorado)]/70 hover:shadow-[0_18px_40px_-14px_rgba(0,0,0,0.5)]"
               >
                 <Icon
                   aria-hidden="true"
-                  className="h-5 w-5 text-[var(--color-guinda)]"
+                  className="h-5 w-5 text-[var(--color-dorado)]"
                 />
-                <dt className="mt-2 text-[10px] font-semibold uppercase tracking-widest text-[var(--color-text-muted)]">
+                <dt className="mt-2 text-[10px] font-semibold uppercase tracking-widest text-[var(--color-cream)]/70">
                   {label}
                 </dt>
-                <dd className="mt-1 font-display text-lg font-bold text-[var(--color-text)] md:text-xl">
+                <dd className="mt-1 font-display text-lg font-bold text-[var(--color-dorado)] md:text-xl">
                   {value}
                 </dd>
-                <dd className="text-[11px] text-[var(--color-text-secondary)]">
+                <dd className="text-[11px] text-[var(--color-cream)]/80">
                   {detail}
                 </dd>
               </motion.div>
@@ -311,7 +329,7 @@ export function ConoceArivechi() {
           <div className="mt-10 flex flex-wrap gap-3">
             <Link
               href="/turismo"
-              className="group inline-flex items-center gap-2 rounded-full bg-[var(--color-guinda)] px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--color-guinda-deep)]"
+              className="group inline-flex items-center gap-2 rounded-full bg-[var(--color-dorado)] px-6 py-3 text-sm font-semibold text-[var(--color-guinda-deep)] shadow-md transition-all duration-200 hover:scale-105 hover:bg-[#E5B62A] hover:shadow-lg"
             >
               Descubre el turismo
               <ArrowRight
@@ -321,7 +339,7 @@ export function ConoceArivechi() {
             </Link>
             <Link
               href="/gobierno/directorio"
-              className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-white px-6 py-3 text-sm font-semibold text-[var(--color-text)] transition hover:border-[var(--color-guinda)] hover:text-[var(--color-guinda)]"
+              className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-transparent px-6 py-3 text-sm font-semibold text-white transition hover:border-[var(--color-dorado)] hover:text-[var(--color-dorado)]"
             >
               Conoce el Gobierno
             </Link>

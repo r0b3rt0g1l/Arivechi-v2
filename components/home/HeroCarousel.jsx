@@ -32,7 +32,6 @@ export function HeroCarousel() {
     offset: ["start start", "end start"],
   });
   const bgY = useTransform(scrollYProgress, [0, 1], [0, -200]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 1], [0.3, 0.7]);
   const contentY = useTransform(scrollYProgress, [0, 1], [0, -40]);
   const contentOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.4]);
 
@@ -110,21 +109,16 @@ export function HeroCarousel() {
         </div>
       </motion.div>
 
-      {/* Animated solid overlay: opacity 0.3 → 0.7 */}
-      <motion.div
-        aria-hidden="true"
-        style={
-          reduce
-            ? { opacity: 0.5 }
-            : { opacity: overlayOpacity }
-        }
-        className="absolute inset-0 bg-[var(--color-guinda-deep)]"
-      />
-
-      {/* Static gradient for legibility at the bottom */}
+      {/* Overlay unificado guinda 65% (fijo, todos los slides) */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-t from-[var(--color-guinda-deep)]/85 via-[var(--color-guinda-deep)]/30 to-transparent"
+        className="absolute inset-0 bg-[rgba(107,22,41,0.65)]"
+      />
+
+      {/* Degradado adicional desde abajo: guinda profundo 0.85 en el último 30% */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-gradient-to-t from-[rgba(74,14,28,0.85)] via-transparent to-transparent"
       />
 
       {/* Content layer: title + subtitle + CTA, translateY 0→-40 + opacity 1→0.4 */}
@@ -162,10 +156,10 @@ export function HeroCarousel() {
                   ALIGN_CLASSES[activeSlide.align ?? "center"],
                 )}
               >
-                <span className="inline-flex w-fit items-center gap-2 rounded-full border border-white/25 bg-white/5 px-3 py-1 text-xs font-medium uppercase tracking-[0.22em] text-[var(--color-cream)] backdrop-blur-sm">
+                <span className="inline-flex w-fit items-center gap-2 text-xs font-semibold uppercase tracking-[0.28em] text-[var(--color-dorado)]">
                   <span
                     aria-hidden="true"
-                    className="h-1.5 w-1.5 rounded-full bg-[var(--color-dorado)]"
+                    className="block h-px w-8 bg-[var(--color-dorado)]"
                   />
                   {activeSlide.eyebrow}
                 </span>
@@ -178,7 +172,7 @@ export function HeroCarousel() {
                 <div>
                   <Link
                     href={activeSlide.cta.href}
-                    className="group inline-flex items-center gap-2 rounded-full bg-[var(--color-dorado)] px-6 py-3 text-sm font-semibold text-[var(--color-guinda-deep)] shadow-lg transition hover:bg-white hover:shadow-xl"
+                    className="group inline-flex items-center gap-2 rounded-full bg-[var(--color-dorado)] px-6 py-3 text-sm font-semibold text-[var(--color-guinda-deep)] shadow-lg transition-all duration-200 hover:scale-105 hover:bg-[#E5B62A] hover:shadow-xl"
                   >
                     {activeSlide.cta.label}
                     <ArrowRight
@@ -198,7 +192,7 @@ export function HeroCarousel() {
         type="button"
         aria-label="Diapositiva anterior"
         onClick={scrollPrev}
-        className="absolute left-3 top-1/2 z-20 hidden -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-black/20 p-3 text-white backdrop-blur-sm transition hover:border-white/60 hover:bg-black/40 md:inline-flex"
+        className="absolute left-3 top-1/2 z-20 hidden -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-[rgba(107,22,41,0.4)] p-3 text-white backdrop-blur-sm transition hover:border-[var(--color-dorado)] hover:bg-[rgba(107,22,41,0.7)] hover:text-[var(--color-dorado)] md:inline-flex"
       >
         <ChevronLeft className="h-5 w-5" aria-hidden="true" />
       </button>
@@ -206,7 +200,7 @@ export function HeroCarousel() {
         type="button"
         aria-label="Diapositiva siguiente"
         onClick={scrollNext}
-        className="absolute right-3 top-1/2 z-20 hidden -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-black/20 p-3 text-white backdrop-blur-sm transition hover:border-white/60 hover:bg-black/40 md:inline-flex"
+        className="absolute right-3 top-1/2 z-20 hidden -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-[rgba(107,22,41,0.4)] p-3 text-white backdrop-blur-sm transition hover:border-[var(--color-dorado)] hover:bg-[rgba(107,22,41,0.7)] hover:text-[var(--color-dorado)] md:inline-flex"
       >
         <ChevronRight className="h-5 w-5" aria-hidden="true" />
       </button>

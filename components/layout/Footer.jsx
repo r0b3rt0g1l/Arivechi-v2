@@ -160,6 +160,13 @@ export function Footer() {
         </FooterColumn>
       </div>
 
+      <div className="flex justify-center pb-2">
+        <span
+          aria-hidden="true"
+          className="block h-px w-32 bg-[var(--color-dorado)]"
+        />
+      </div>
+
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-5 text-xs text-[var(--color-cream)]/65 sm:px-6 md:flex-row md:items-center md:justify-between">
           <p>
