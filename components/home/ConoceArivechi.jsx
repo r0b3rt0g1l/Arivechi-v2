@@ -11,7 +11,7 @@ import {
   Users,
 } from "lucide-react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { LineaTiempo } from "@/components/home/LineaTiempo";
+import { hitos } from "@/lib/hitos";
 
 const HERO_IMAGE = "/images/arivechi/panorama-sierra-madre.jpg";
 const TEXT_SHADOW = "0 2px 8px rgba(0,0,0,0.7)";
@@ -65,6 +65,15 @@ const ALIGN = {
   center: "justify-center",
 };
 
+const ALIGN_TEXT = {
+  left: "items-start text-left",
+  right: "items-end text-right",
+};
+
+function getHitoByYear(year) {
+  return hitos.find((h) => h.ano === String(year)) ?? null;
+}
+
 function HeroBlock({ reduce }) {
   return (
     <div
@@ -80,10 +89,7 @@ function HeroBlock({ reduce }) {
         className="max-w-3xl"
         style={{ textShadow: TEXT_SHADOW }}
       >
-        <p
-          id="historia-eyebrow"
-          className="inline-flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.28em] text-[var(--color-dorado)]"
-        >
+        <p className="inline-flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.28em] text-[var(--color-dorado)]">
           <span
             aria-hidden="true"
             className="block h-px w-8 bg-[var(--color-dorado)]"
@@ -184,18 +190,117 @@ function BigStat({ number, unit, caption, reduce }) {
   );
 }
 
+function HitoBlock({ hito, reduce }) {
+  return (
+    <div
+      role="region"
+      aria-label={`Hito ${hito.ano}: ${hito.titulo}`}
+      className="relative min-h-dvh w-full overflow-hidden bg-black"
+    >
+      {hito.imagen ? (
+        <>
+          <Image
+            src={hito.imagen}
+            alt=""
+            fill
+            sizes="100vw"
+            quality={90}
+            className="object-cover object-center"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/55 to-black/75"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-[rgba(107,22,41,0.20)]"
+          />
+        </>
+      ) : (
+        <>
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-br from-[var(--color-guinda-deep)] via-[var(--color-guinda)] to-[var(--color-guinda-deep)]"
+          />
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-25">
+            <Image
+              src={hito.escudo}
+              alt=""
+              width={520}
+              height={520}
+              className="h-[60vh] w-auto max-w-[60vw] object-contain"
+              priority={false}
+            />
+          </div>
+        </>
+      )}
+
+      <div
+        className={`relative z-10 flex min-h-dvh w-full items-center px-6 py-16 sm:px-10 lg:px-16 ${ALIGN[hito.align]}`}
+      >
+        <motion.div
+          initial={reduce ? false : { opacity: 0, y: 30 }}
+          whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: false, margin: "-20%" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className={`flex w-full max-w-3xl flex-col gap-5 ${ALIGN_TEXT[hito.align]}`}
+          style={{ textShadow: TEXT_SHADOW }}
+        >
+          <p
+            className={`inline-flex items-center gap-3 font-display text-7xl font-bold leading-none text-[var(--color-dorado)] lg:text-8xl ${
+              hito.align === "right" ? "flex-row-reverse" : ""
+            }`}
+          >
+            <span
+              aria-hidden="true"
+              className="block h-px w-10 bg-[var(--color-dorado)]"
+            />
+            {hito.ano}
+          </p>
+          <h3 className="font-display text-3xl font-semibold leading-tight tracking-tight text-balance text-white lg:text-5xl">
+            {hito.titulo}
+          </h3>
+          <p className="max-w-xl text-base leading-relaxed text-white/90 lg:text-lg">
+            {hito.descripcion}
+          </p>
+          <div
+            className={`mt-3 max-w-md rounded-lg border-l-4 border-[var(--color-dorado)] bg-black/40 px-5 py-4 text-left backdrop-blur-md ${
+              hito.align === "right" ? "self-end" : ""
+            }`}
+            style={{ textShadow: "none" }}
+          >
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--color-dorado)]">
+              Dato curioso
+            </p>
+            <p className="mt-1.5 text-sm leading-relaxed text-white/90">
+              {hito.datoCurioso}
+            </p>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
 export function ConoceArivechi() {
   const reduce = useReducedMotion();
 
+  const hito1627 = getHitoByYear(1627);
+  const hito1638 = getHitoByYear(1638);
+  const hito1932 = getHitoByYear(1932);
+  const hito2010 = getHitoByYear(2010);
+  const hito2016 = getHitoByYear(2016);
+  const hito2024 = getHitoByYear(2024);
+
   return (
     <>
-      {/* HISTORIA — sticky storytelling NYT-style */}
+      {/* HISTORIA — narrativa intercalada con hitos sobre Sierra Madre sticky */}
       <section
         id="historia"
         aria-label="Historia de Arivechi"
         className="relative bg-black"
       >
-        {/* Imagen sticky de background */}
+        {/* Imagen sticky base — Sierra Madre que se ve durante los bloques narrativos */}
         <div
           className={
             reduce
@@ -222,10 +327,14 @@ export function ConoceArivechi() {
           />
         </div>
 
-        {/* Texto narrativo encima — superposición con margen negativo */}
-        <div className={reduce ? "relative z-10" : "relative z-10 -mt-[100dvh]"}>
+        {/* Flujo narrativo + hitos intercalados, superpuestos al sticky con margen negativo */}
+        <div
+          className={reduce ? "relative z-10" : "relative z-10 -mt-[100dvh]"}
+        >
+          {/* 1. Entrada heroica */}
           <HeroBlock reduce={reduce} />
 
+          {/* 2. Narrativa Origen */}
           <NarrativeBlock
             id="historia-origen"
             eyebrow="Origen"
@@ -237,6 +346,10 @@ export function ConoceArivechi() {
             evangelizar a las tribus ópatas que habitaban la región.
           </NarrativeBlock>
 
+          {/* 3. Hito 1627 */}
+          {hito1627 && <HitoBlock hito={hito1627} reduce={reduce} />}
+
+          {/* 4. Narrativa Significado */}
           <NarrativeBlock
             id="historia-significado"
             eyebrow="Significado"
@@ -249,10 +362,15 @@ export function ConoceArivechi() {
             todo el municipio.
           </NarrativeBlock>
 
+          {/* 5. Hito 1638 */}
+          {hito1638 && <HitoBlock hito={hito1638} reduce={reduce} />}
+
+          {/* 6. Pull-quote */}
           <PullQuote reduce={reduce}>
             «Arivetzi —<br />Lugar de las Calaveras»
           </PullQuote>
 
+          {/* 7. Narrativa Patrimonio */}
           <NarrativeBlock
             id="historia-patrimonio"
             eyebrow="Patrimonio"
@@ -265,6 +383,10 @@ export function ConoceArivechi() {
             fauna y flora locales.
           </NarrativeBlock>
 
+          {/* 8. Hito 1932 */}
+          {hito1932 && <HitoBlock hito={hito1932} reduce={reduce} />}
+
+          {/* 9. Stat 500 millones */}
           <BigStat
             reduce={reduce}
             number="500"
@@ -272,6 +394,13 @@ export function ConoceArivechi() {
             caption="de antigüedad de los fósiles marinos del Cerro de las Conchas, descubiertos en 2016."
           />
 
+          {/* 10. Hito 2010 */}
+          {hito2010 && <HitoBlock hito={hito2010} reduce={reduce} />}
+
+          {/* 11. Hito 2016 */}
+          {hito2016 && <HitoBlock hito={hito2016} reduce={reduce} />}
+
+          {/* 12. Narrativa Naturaleza */}
           <NarrativeBlock
             id="historia-naturaleza"
             eyebrow="Naturaleza"
@@ -283,16 +412,16 @@ export function ConoceArivechi() {
             únicas en el noroeste de México.
           </NarrativeBlock>
 
-          {/* Transición fade hacia el siguiente bloque guinda */}
+          {/* 13. Hito 2024 — cierre */}
+          {hito2024 && <HitoBlock hito={hito2024} reduce={reduce} />}
+
+          {/* Transición fade hacia la siguiente sección guinda */}
           <div
             aria-hidden="true"
             className="relative h-[50vh] min-h-[300px] w-full bg-gradient-to-b from-transparent via-[rgba(107,22,41,0.5)] to-[var(--color-guinda)]"
           />
         </div>
       </section>
-
-      {/* LÍNEA DEL TIEMPO — entre Historia y Datos del municipio (T24) */}
-      <LineaTiempo />
 
       {/* DATOS DEL MUNICIPIO — sección guinda preservada de T22 */}
       <section
