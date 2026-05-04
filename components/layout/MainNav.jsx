@@ -89,9 +89,9 @@ export function MainNav() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Facebook oficial de Arivechi"
-          className="hidden h-10 w-10 items-center justify-center rounded-full text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-guinda)]/5 hover:text-[var(--color-guinda)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2 lg:inline-flex"
+          className="hidden h-10 w-10 items-center justify-center rounded-full text-[#1877F2] transition-transform duration-200 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2 lg:inline-flex"
         >
-          <Facebook aria-hidden="true" className="h-5 w-5" />
+          <Facebook aria-hidden="true" className="h-5 w-5 fill-current" />
         </a>
 
         <div className="lg:hidden">
