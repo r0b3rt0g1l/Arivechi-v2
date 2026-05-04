@@ -28,7 +28,7 @@ export function AccionesRecientes({ noticias = [] }) {
   return (
     <section
       aria-label="Acciones recientes del gobierno"
-      className="bg-white"
+      className="bg-gradient-to-b from-white via-[var(--color-bg)] to-[var(--color-guinda)]/[0.06]"
     >
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">

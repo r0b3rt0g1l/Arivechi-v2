@@ -21,8 +21,8 @@ export default function HomePage() {
     <main className="flex flex-1 flex-col">
       <HeroCarousel />
       <BannerCarousel items={bannersUnificados} />
-      <AccionesRecientes noticias={noticiasRecientes} />
       <ConoceArivechi />
+      <AccionesRecientes noticias={noticiasRecientes} />
     </main>
   );
 }
