@@ -1,118 +1,55 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { hitos } from "@/lib/hitos";
 
-const TEXT_SHADOW = "0 2px 8px rgba(0,0,0,0.7)";
-
-const ALIGN = {
-  left: "justify-start",
-  right: "justify-end",
+const itemVariants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+  },
 };
 
-const ALIGN_TEXT = {
-  left: "items-start text-left",
-  right: "items-end text-right",
-};
-
-function HitoBackground({ hito }) {
-  if (hito.imagen) {
-    return (
-      <>
-        <Image
-          src={hito.imagen}
-          alt=""
-          fill
-          sizes="100vw"
-          quality={90}
-          className="object-cover object-center"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/55 to-black/75"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-[rgba(107,22,41,0.20)]"
-        />
-      </>
-    );
-  }
-  // Hito 2024: gradient guinda institucional + escudo centrado
+function HitoItem({ hito, reduce, isLast }) {
   return (
-    <>
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-br from-[var(--color-guinda-deep)] via-[var(--color-guinda)] to-[var(--color-guinda-deep)]"
-      />
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-25">
-        <Image
-          src={hito.escudo}
-          alt=""
-          width={520}
-          height={520}
-          className="h-[60vh] w-auto max-w-[60vw] object-contain"
-          priority={false}
-        />
-      </div>
-    </>
-  );
-}
-
-function Hito({ hito, reduce }) {
-  return (
-    <article
+    <li
       role="region"
       aria-label={`Hito ${hito.ano}: ${hito.titulo}`}
-      className="relative min-h-dvh w-full overflow-hidden bg-black"
+      className={`relative pl-12 sm:pl-16 ${isLast ? "" : "pb-14 lg:pb-20"}`}
     >
-      <HitoBackground hito={hito} />
-      <div
-        className={`relative z-10 flex min-h-dvh w-full items-center px-6 py-16 sm:px-10 lg:px-16 ${ALIGN[hito.align]}`}
+      <span
+        aria-hidden="true"
+        className="absolute left-2 top-3 sm:left-3 z-10 block h-3.5 w-3.5 rounded-full bg-[var(--color-dorado)] ring-4 ring-[#FAFAF7]"
+      />
+
+      <motion.div
+        initial={reduce ? false : "hidden"}
+        whileInView={reduce ? undefined : "visible"}
+        viewport={{ once: true, margin: "-15%" }}
+        variants={itemVariants}
       >
-        <motion.div
-          initial={reduce ? false : { opacity: 0, y: 30 }}
-          whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-20%" }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className={`flex w-full max-w-3xl flex-col gap-5 ${ALIGN_TEXT[hito.align]}`}
-          style={{ textShadow: TEXT_SHADOW }}
-        >
-          <p
-            className={`inline-flex items-center gap-3 font-display text-7xl font-bold leading-none text-[var(--color-dorado)] lg:text-8xl ${
-              hito.align === "right" ? "flex-row-reverse" : ""
-            }`}
-          >
-            <span
-              aria-hidden="true"
-              className="block h-px w-10 bg-[var(--color-dorado)]"
-            />
-            {hito.ano}
+        <p className="font-display text-5xl font-bold leading-none text-[var(--color-dorado)] lg:text-6xl">
+          {hito.ano}
+        </p>
+        <h3 className="mt-2 font-display text-2xl font-semibold leading-snug text-[var(--color-guinda)] lg:text-3xl">
+          {hito.titulo}
+        </h3>
+        <p className="mt-3 max-w-prose font-serif text-base leading-snug text-[var(--color-text-secondary)] lg:text-lg">
+          {hito.descripcion}
+        </p>
+        <div className="mt-4 max-w-prose rounded-r border-l-4 border-[var(--color-dorado)] bg-white px-4 py-3 shadow-[var(--shadow-card)]">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--color-guinda)]">
+            Dato curioso
           </p>
-          <h3 className="font-display text-3xl font-semibold leading-tight tracking-tight text-balance text-white lg:text-5xl">
-            {hito.titulo}
-          </h3>
-          <p className="max-w-xl text-base leading-relaxed text-white/90 lg:text-lg">
-            {hito.descripcion}
+          <p className="mt-1 font-serif text-sm leading-snug text-[var(--color-text-secondary)]">
+            {hito.datoCurioso}
           </p>
-          <div
-            className={`mt-3 max-w-md rounded-lg border-l-4 border-[var(--color-dorado)] bg-black/40 px-5 py-4 text-left backdrop-blur-md ${
-              hito.align === "right" ? "self-end" : ""
-            }`}
-            style={{ textShadow: "none" }}
-          >
-            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--color-dorado)]">
-              Dato curioso
-            </p>
-            <p className="mt-1.5 text-sm leading-relaxed text-white/90">
-              {hito.datoCurioso}
-            </p>
-          </div>
-        </motion.div>
-      </div>
-    </article>
+        </div>
+      </motion.div>
+    </li>
   );
 }
 
@@ -122,11 +59,37 @@ export function LineaTiempo() {
     <section
       id="linea-del-tiempo"
       aria-label="Línea del tiempo de Arivechi"
-      className="bg-black"
+      className="bg-[#FAFAF7]"
     >
-      {hitos.map((hito) => (
-        <Hito key={hito.ano} hito={hito} reduce={reduce} />
-      ))}
+      <div className="mx-auto max-w-3xl px-6 py-20 lg:py-28">
+        <header className="mb-12 lg:mb-16">
+          <p className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.28em] text-[var(--color-dorado)]">
+            <span
+              aria-hidden="true"
+              className="block h-px w-8 bg-[var(--color-dorado)]"
+            />
+            Línea del tiempo
+          </p>
+          <h2 className="mt-3 font-display text-3xl font-bold leading-tight tracking-tight text-[var(--color-guinda)] lg:text-4xl">
+            Hitos de Arivechi
+          </h2>
+        </header>
+
+        <ol className="relative">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute left-3.5 sm:left-[18px] top-2 bottom-2 w-px bg-[var(--color-dorado)]/40"
+          />
+          {hitos.map((hito, index) => (
+            <HitoItem
+              key={hito.ano}
+              hito={hito}
+              reduce={reduce}
+              isLast={index === hitos.length - 1}
+            />
+          ))}
+        </ol>
+      </div>
     </section>
   );
 }

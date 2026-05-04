@@ -68,7 +68,7 @@ const ALIGN = {
 function HeroBlock({ reduce }) {
   return (
     <div
-      className="relative flex min-h-dvh items-end px-6 pb-16 pt-28 sm:px-10 lg:px-16 lg:pb-20"
+      className="relative flex min-h-[80vh] items-end px-6 pb-16 pt-28 sm:px-10 lg:px-16 lg:pb-20"
       role="region"
       aria-labelledby="historia-titulo"
     >
@@ -113,14 +113,14 @@ function NarrativeBlock({
     <div
       role="region"
       aria-labelledby={id}
-      className={`relative flex min-h-dvh items-center px-6 py-16 sm:px-10 lg:px-16 ${ALIGN[align]}`}
+      className={`relative flex min-h-[70vh] items-center px-6 py-12 sm:px-10 lg:px-16 ${ALIGN[align]}`}
     >
       <motion.div
         initial={reduce ? false : { opacity: 0, y: 60 }}
         whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
         viewport={{ once: false, margin: "-30%" }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="w-full max-w-2xl rounded-xl border border-white/5 bg-black/40 p-8 backdrop-blur-md lg:p-12"
+        className="w-full max-w-2xl rounded-xl border border-white/5 bg-black/40 p-7 backdrop-blur-md lg:p-10"
       >
         <p
           id={id}
@@ -129,11 +129,11 @@ function NarrativeBlock({
           {eyebrow}
         </p>
         {dropCap ? (
-          <p className="mt-4 text-lg leading-relaxed text-white lg:text-xl first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:font-display first-letter:text-7xl first-letter:font-bold first-letter:leading-[0.85] first-letter:text-[var(--color-dorado)]">
+          <p className="mt-3 font-serif text-lg leading-snug text-white lg:text-xl first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:font-display first-letter:text-7xl first-letter:font-bold first-letter:leading-[0.85] first-letter:text-[var(--color-dorado)]">
             {children}
           </p>
         ) : (
-          <p className="mt-4 text-lg leading-relaxed text-white lg:text-xl">
+          <p className="mt-3 font-serif text-lg leading-snug text-white lg:text-xl">
             {children}
           </p>
         )}
@@ -147,7 +147,7 @@ function PullQuote({ children, reduce }) {
     <div
       role="region"
       aria-label="Cita destacada"
-      className="relative flex min-h-dvh items-center justify-center px-6 py-16"
+      className="relative flex min-h-[70vh] items-center justify-center px-6 py-12"
     >
       <motion.figure
         initial={reduce ? false : { opacity: 0, scale: 0.9 }}
@@ -170,7 +170,7 @@ function BigStat({ number, unit, caption, reduce }) {
     <div
       role="region"
       aria-label="Dato destacado"
-      className="relative flex min-h-dvh items-center justify-center px-6 py-16"
+      className="relative flex min-h-[70vh] items-center justify-center px-6 py-12"
     >
       <motion.div
         initial={reduce ? false : { opacity: 0, scale: 0.9 }}
@@ -295,12 +295,6 @@ export function ConoceArivechi() {
             Protegida por su biodiversidad endémica y sus formaciones geológicas
             únicas en el noroeste de México.
           </NarrativeBlock>
-
-          {/* Transición fade Historia → Timeline (ambas en bg-black, fundido suave) */}
-          <div
-            aria-hidden="true"
-            className="relative h-[40vh] min-h-[240px] w-full bg-gradient-to-b from-transparent to-black"
-          />
         </div>
       </section>
 
