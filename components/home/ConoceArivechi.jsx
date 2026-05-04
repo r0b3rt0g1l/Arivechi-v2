@@ -11,6 +11,7 @@ import {
   Users,
 } from "lucide-react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { LineaTiempo } from "@/components/home/LineaTiempo";
 
 const HERO_IMAGE = "/images/arivechi/panorama-sierra-madre.jpg";
 const TEXT_SHADOW = "0 2px 8px rgba(0,0,0,0.7)";
@@ -289,6 +290,9 @@ export function ConoceArivechi() {
           />
         </div>
       </section>
+
+      {/* LÍNEA DEL TIEMPO — entre Historia y Datos del municipio (T24) */}
+      <LineaTiempo />
 
       {/* DATOS DEL MUNICIPIO — sección guinda preservada de T22 */}
       <section
