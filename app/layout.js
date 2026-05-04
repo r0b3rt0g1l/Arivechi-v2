@@ -5,6 +5,7 @@ import { buildMetadata, defaultViewport } from "@/lib/seo";
 import { MainNav } from "@/components/layout/MainNav";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
+import { ToastProvider } from "@/components/ui/Toast";
 import { TermsModalGate } from "@/components/layout/TermsModalGate";
 import "./globals.css";
 
@@ -24,13 +25,15 @@ export default function RootLayout({ children }) {
         >
           Saltar al contenido principal
         </a>
-        <TermsModalGate />
-        <MainNav />
-        <div id="contenido-principal" className="flex flex-1 flex-col">
-          {children}
-        </div>
-        <Footer />
-        <ScrollToTop />
+        <ToastProvider>
+          <TermsModalGate />
+          <MainNav />
+          <div id="contenido-principal" className="flex flex-1 flex-col">
+            {children}
+          </div>
+          <Footer />
+          <ScrollToTop />
+        </ToastProvider>
         <Analytics />
         <SpeedInsights />
       </body>
