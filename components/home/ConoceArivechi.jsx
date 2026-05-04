@@ -11,7 +11,7 @@ import {
   Users,
 } from "lucide-react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { LineaTiempo } from "@/components/home/LineaTiempo";
+import { hitos } from "@/lib/hitos";
 
 const HERO_IMAGE = "/images/arivechi/panorama-sierra-madre.jpg";
 const TEXT_SHADOW = "0 2px 8px rgba(0,0,0,0.7)";
@@ -59,12 +59,6 @@ const cardItem = {
   },
 };
 
-const ALIGN = {
-  left: "justify-start",
-  right: "justify-end",
-  center: "justify-center",
-};
-
 function HeroBlock({ reduce }) {
   return (
     <div
@@ -101,95 +95,81 @@ function HeroBlock({ reduce }) {
   );
 }
 
-function NarrativeBlock({
-  eyebrow,
-  children,
-  align = "left",
-  reduce,
-  id,
-  dropCap = false,
-}) {
+function NarrativeBlock({ eyebrow, children, reduce, id, dropCap = false }) {
   return (
-    <div
-      role="region"
-      aria-labelledby={id}
-      className={`relative flex min-h-[70vh] items-center px-6 py-12 sm:px-10 lg:px-16 ${ALIGN[align]}`}
+    <motion.article
+      id={id}
+      initial={reduce ? false : { opacity: 0, y: 30 }}
+      whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-15%" }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="flex min-h-[60vh] flex-col justify-center rounded-xl border border-white/5 bg-black/40 p-7 backdrop-blur-md lg:p-9"
     >
-      <motion.div
-        initial={reduce ? false : { opacity: 0, y: 60 }}
-        whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-        viewport={{ once: false, margin: "-30%" }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="w-full max-w-2xl rounded-xl border border-white/5 bg-black/40 p-7 backdrop-blur-md lg:p-10"
-      >
-        <p
-          id={id}
-          className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--color-dorado)]"
-        >
-          {eyebrow}
-        </p>
-        {dropCap ? (
-          <p className="mt-3 font-serif text-lg leading-snug text-white lg:text-xl first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:font-display first-letter:text-7xl first-letter:font-bold first-letter:leading-[0.85] first-letter:text-[var(--color-dorado)]">
-            {children}
-          </p>
-        ) : (
-          <p className="mt-3 font-serif text-lg leading-snug text-white lg:text-xl">
-            {children}
-          </p>
-        )}
-      </motion.div>
-    </div>
-  );
-}
-
-function PullQuote({ children, reduce }) {
-  return (
-    <div
-      role="region"
-      aria-label="Cita destacada"
-      className="relative flex min-h-[70vh] items-center justify-center px-6 py-12"
-    >
-      <motion.figure
-        initial={reduce ? false : { opacity: 0, scale: 0.9 }}
-        whileInView={reduce ? undefined : { opacity: 1, scale: 1 }}
-        viewport={{ once: false, margin: "-30%" }}
-        transition={{ duration: 1.2, ease: "easeOut" }}
-        className="max-w-3xl text-center"
-        style={{ textShadow: TEXT_SHADOW }}
-      >
-        <blockquote className="font-display text-5xl italic font-medium leading-[1.15] text-balance text-[var(--color-dorado)] lg:text-7xl">
+      <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[var(--color-dorado)]">
+        {eyebrow}
+      </p>
+      {dropCap ? (
+        <p className="mt-3 font-serif text-base leading-snug text-white lg:text-lg first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:font-display first-letter:text-6xl first-letter:font-bold first-letter:leading-[0.85] first-letter:text-[var(--color-dorado)]">
           {children}
-        </blockquote>
-      </motion.figure>
-    </div>
+        </p>
+      ) : (
+        <p className="mt-3 font-serif text-base leading-snug text-white lg:text-lg">
+          {children}
+        </p>
+      )}
+    </motion.article>
   );
 }
 
-function BigStat({ number, unit, caption, reduce }) {
+function HitoItem({ hito, reduce, isLast }) {
   return (
-    <div
+    <motion.li
       role="region"
-      aria-label="Dato destacado"
-      className="relative flex min-h-[70vh] items-center justify-center px-6 py-12"
+      aria-label={`Hito ${hito.ano}: ${hito.titulo}`}
+      initial={reduce ? false : { opacity: 0, y: 24 }}
+      whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-15%" }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      className={`relative flex min-h-[40vh] flex-col justify-center pl-10 ${
+        isLast ? "" : "pb-8"
+      }`}
     >
-      <motion.div
-        initial={reduce ? false : { opacity: 0, scale: 0.9 }}
-        whileInView={reduce ? undefined : { opacity: 1, scale: 1 }}
-        viewport={{ once: false, margin: "-30%" }}
-        transition={{ duration: 1.2, ease: "easeOut" }}
-        className="max-w-3xl text-center"
-        style={{ textShadow: TEXT_SHADOW }}
-      >
-        <p className="font-display text-7xl font-bold leading-none text-[var(--color-dorado)] lg:text-9xl">
-          {number}
+      <span
+        aria-hidden="true"
+        className="absolute left-0 top-1/2 z-10 -translate-y-1/2 h-3.5 w-3.5 rounded-full bg-[var(--color-dorado)] ring-4 ring-black/40"
+      />
+      <div className="rounded-lg border border-white/5 bg-black/40 px-5 py-4 backdrop-blur-sm">
+        <p className="font-display text-4xl font-bold leading-none text-[var(--color-dorado)] lg:text-5xl">
+          {hito.ano}
         </p>
-        <p className="mt-3 font-display text-3xl text-white/95 lg:text-5xl">
-          {unit}
+        <h3 className="mt-2 font-display text-lg font-semibold leading-snug text-white lg:text-xl">
+          {hito.titulo}
+        </h3>
+        <p className="mt-2 font-serif text-sm leading-snug text-white/85 lg:text-base">
+          {hito.descripcion}
         </p>
-        <p className="mx-auto mt-5 max-w-xl text-base text-white/80 lg:text-lg">
-          {caption}
-        </p>
-      </motion.div>
+      </div>
+    </motion.li>
+  );
+}
+
+function TimelineColumn({ reduce }) {
+  return (
+    <div className="relative">
+      <ol className="relative">
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute left-[7px] top-4 bottom-4 w-px bg-[var(--color-dorado)]/40"
+        />
+        {hitos.map((hito, index) => (
+          <HitoItem
+            key={hito.ano}
+            hito={hito}
+            reduce={reduce}
+            isLast={index === hitos.length - 1}
+          />
+        ))}
+      </ol>
     </div>
   );
 }
@@ -199,7 +179,7 @@ export function ConoceArivechi() {
 
   return (
     <>
-      {/* HISTORIA — sticky scroll storytelling NYT-style */}
+      {/* HISTORIA — sticky scroll storytelling NYT-style con 2 columnas */}
       <section
         id="historia"
         aria-label="Historia de Arivechi"
@@ -232,74 +212,68 @@ export function ConoceArivechi() {
           />
         </div>
 
-        {/* Texto narrativo encima del sticky */}
+        {/* Contenido superpuesto al sticky */}
         <div
           className={reduce ? "relative z-10" : "relative z-10 -mt-[100dvh]"}
         >
           <HeroBlock reduce={reduce} />
 
-          <NarrativeBlock
-            id="historia-origen"
-            eyebrow="Origen"
-            align="left"
-            reduce={reduce}
-            dropCap
-          >
-            Fundado en 1627 por el misionero jesuita Pedro Méndez bajo el nombre
-            de San Javier de Arivechi, una misión religiosa establecida para
-            evangelizar a las tribus ópatas que habitaban la región.
-          </NarrativeBlock>
+          {/* Grid 2 columnas: narrativa izq + timeline der */}
+          <div className="mx-auto max-w-7xl px-6 pb-20 sm:px-10 lg:px-16 lg:pb-28">
+            <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
+              {/* Columna IZQ: 4 bloques narrativos */}
+              <div className="space-y-8 lg:space-y-10">
+                <NarrativeBlock
+                  id="historia-origen"
+                  eyebrow="Origen"
+                  reduce={reduce}
+                  dropCap
+                >
+                  Fundado en 1627 por el misionero jesuita Pedro Méndez bajo el
+                  nombre de San Javier de Arivechi, una misión religiosa
+                  establecida para evangelizar a las tribus ópatas que habitaban
+                  la región.
+                </NarrativeBlock>
 
-          <NarrativeBlock
-            id="historia-significado"
-            eyebrow="Significado"
-            align="right"
-            reduce={reduce}
-          >
-            Su nombre proviene del idioma ópata Arivetzi, que significa
-            &ldquo;Lugar de las Calaveras&rdquo; — de las raíces Arive (calavera)
-            y Tzi (lugar). Hoy alberga 635 habitantes en la cabecera y 1,177 en
-            todo el municipio.
-          </NarrativeBlock>
+                <NarrativeBlock
+                  id="historia-significado"
+                  eyebrow="Significado"
+                  reduce={reduce}
+                >
+                  Su nombre proviene del idioma ópata Arivetzi, que significa
+                  &ldquo;Lugar de las Calaveras&rdquo; — de las raíces Arive
+                  (calavera) y Tzi (lugar). Hoy alberga 635 habitantes en la
+                  cabecera y 1,177 en todo el municipio.
+                </NarrativeBlock>
 
-          <PullQuote reduce={reduce}>
-            «Arivetzi —<br />Lugar de las Calaveras»
-          </PullQuote>
+                <NarrativeBlock
+                  id="historia-patrimonio"
+                  eyebrow="Patrimonio"
+                  reduce={reduce}
+                >
+                  Su plaza monumental ostenta una singular obra arquitectónica:
+                  un kiosco que es réplica del Pabellón Morisco de la colonia
+                  Santa María la Ribera en la Ciudad de México, con vitrales
+                  que retratan paisajes, fauna y flora locales.
+                </NarrativeBlock>
 
-          <NarrativeBlock
-            id="historia-patrimonio"
-            eyebrow="Patrimonio"
-            align="left"
-            reduce={reduce}
-          >
-            Su plaza monumental ostenta una singular obra arquitectónica: un
-            kiosco que es réplica del Pabellón Morisco de la colonia Santa María
-            la Ribera en la Ciudad de México, con vitrales que retratan paisajes,
-            fauna y flora locales.
-          </NarrativeBlock>
+                <NarrativeBlock
+                  id="historia-naturaleza"
+                  eyebrow="Naturaleza"
+                  reduce={reduce}
+                >
+                  En 2010, la zona del Cerro de las Conchas fue decretada Área
+                  Natural Protegida por su biodiversidad endémica y sus
+                  formaciones geológicas únicas en el noroeste de México.
+                </NarrativeBlock>
+              </div>
 
-          <BigStat
-            reduce={reduce}
-            number="500"
-            unit="millones de años"
-            caption="de antigüedad de los fósiles marinos del Cerro de las Conchas, descubiertos en 2016."
-          />
-
-          <NarrativeBlock
-            id="historia-naturaleza"
-            eyebrow="Naturaleza"
-            align="right"
-            reduce={reduce}
-          >
-            En 2010, la zona del Cerro de las Conchas fue decretada Área Natural
-            Protegida por su biodiversidad endémica y sus formaciones geológicas
-            únicas en el noroeste de México.
-          </NarrativeBlock>
+              {/* Columna DER: timeline 6 hitos */}
+              <TimelineColumn reduce={reduce} />
+            </div>
+          </div>
         </div>
       </section>
-
-      {/* LÍNEA DEL TIEMPO — 6 hitos verticales NYT-style */}
-      <LineaTiempo />
 
       {/* DATOS DEL MUNICIPIO — sección guinda preservada de T22 */}
       <section
