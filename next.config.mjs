@@ -14,8 +14,8 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'picsum.photos',
-        pathname: '/seed/**',
+        hostname: 'loremflickr.com',
+        pathname: '/**',
       },
     ],
     formats: ['image/avif', 'image/webp'],
