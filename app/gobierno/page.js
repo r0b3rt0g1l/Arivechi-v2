@@ -19,14 +19,14 @@ const accesos = [
     href: "/gobierno/directorio",
     titulo: "Directorio del Cabildo",
     descripcion:
-      "Vista clásica con tarjetas individuales por funcionario. Incluye datos de contacto y suplentes.",
+      "Vista en cuadrícula con cada integrante del Cabildo Municipal y la Presidencia del DIF. Click para ver detalles y datos de contacto.",
     icon: Users,
   },
   {
     href: "/gobierno/estructura-organica",
     titulo: "Estructura Orgánica",
     descripcion:
-      "Organigrama institucional en 5 niveles: Cabildo, Secretaría, Direcciones Generales, Direcciones de Área y Organismos Descentralizados.",
+      "Personas que integran el Cabildo y la Presidencia del DIF Municipal. Las direcciones se publicarán conforme a las designaciones oficiales.",
     icon: Network,
   },
   {

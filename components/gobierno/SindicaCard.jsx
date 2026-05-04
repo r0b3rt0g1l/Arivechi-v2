@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { UserRound, UserPlus } from "lucide-react";
+import { UserRound } from "lucide-react";
 
 export function SindicaCard({ sindica }) {
   if (!sindica) return null;
@@ -36,12 +36,6 @@ export function SindicaCard({ sindica }) {
         <p className="text-[15px] font-semibold text-[var(--color-guinda)]">
           Síndica Municipal Propietaria
         </p>
-        {sindica.suplente && (
-          <p className="inline-flex items-center gap-1.5 text-[13px] text-[var(--color-text-muted)]">
-            <UserPlus className="h-3.5 w-3.5" aria-hidden="true" />
-            Suplente: {sindica.suplente}
-          </p>
-        )}
       </div>
     </motion.article>
   );

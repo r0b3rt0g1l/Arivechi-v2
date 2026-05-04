@@ -1,14 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useId } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { UserRound, Mail, Phone, Info } from "lucide-react";
+import { motion } from "framer-motion";
+import { UserRound, Mail, Phone } from "lucide-react";
 
 export function RegidorCard({ regidor }) {
-  const [openTooltip, setOpenTooltip] = useState(false);
-  const tooltipId = useId();
-
   if (!regidor) return null;
 
   const tipoCargo = regidor.cargo || "Regidor/a Propietario/a";
@@ -62,46 +58,6 @@ export function RegidorCard({ regidor }) {
           </li>
         )}
       </ul>
-
-      {regidor.suplente && (
-        <div className="relative mt-1">
-          <button
-            type="button"
-            aria-label={`Información de suplente de ${regidor.nombre}`}
-            aria-describedby={openTooltip ? tooltipId : undefined}
-            onMouseEnter={() => setOpenTooltip(true)}
-            onMouseLeave={() => setOpenTooltip(false)}
-            onFocus={() => setOpenTooltip(true)}
-            onBlur={() => setOpenTooltip(false)}
-            onClick={() => setOpenTooltip((o) => !o)}
-            className="inline-flex items-center gap-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-bg)] px-2.5 py-1 text-[11px] text-[var(--color-text-muted)] transition hover:border-[var(--color-guinda)]/30 hover:text-[var(--color-guinda)]"
-          >
-            <Info className="h-3 w-3" aria-hidden="true" />
-            Suplencia
-          </button>
-          <AnimatePresence>
-            {openTooltip && (
-              <motion.div
-                id={tooltipId}
-                role="tooltip"
-                initial={{ opacity: 0, y: 4 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 4 }}
-                transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute bottom-full left-1/2 z-20 mb-2 w-max max-w-[240px] -translate-x-1/2 rounded-md bg-[var(--color-guinda-deep)] px-3 py-2 text-xs text-white shadow-lg"
-              >
-                Suplente: {regidor.suplente}
-                <span
-                  aria-hidden="true"
-                  className="absolute left-1/2 top-full -translate-x-1/2 -translate-y-px"
-                >
-                  <span className="block h-2 w-2 rotate-45 bg-[var(--color-guinda-deep)]" />
-                </span>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      )}
     </motion.article>
   );
 }
