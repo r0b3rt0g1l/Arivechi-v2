@@ -121,6 +121,12 @@ export function AccionesRecientes({ noticias = [] }) {
           })}
         </motion.ul>
       </div>
+
+      {/* Transición Acciones → Footer: últimos 100px funden a guinda profundo (T30) */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none h-24 w-full bg-gradient-to-b from-transparent to-[var(--color-guinda-deep)]"
+      />
     </section>
   );
 }

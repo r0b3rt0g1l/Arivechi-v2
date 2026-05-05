@@ -272,6 +272,12 @@ export function ConoceArivechi() {
               <TimelineColumn reduce={reduce} />
             </div>
           </div>
+
+          {/* Transición Historia → Datos: últimos 120px funden a guinda (T30) */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none h-32 w-full bg-gradient-to-b from-transparent to-[var(--color-guinda)]"
+          />
         </div>
       </section>
 

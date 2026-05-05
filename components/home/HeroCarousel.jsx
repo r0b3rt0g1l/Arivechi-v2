@@ -121,6 +121,12 @@ export function HeroCarousel() {
         className="absolute inset-0 bg-gradient-to-t from-[rgba(74,14,28,0.85)] via-transparent to-transparent"
       />
 
+      {/* Transición Hero → Historia: últimos 120px funden a negro (T30) */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-black"
+      />
+
       {/* Content layer: title + subtitle + CTA, translateY 0→-40 + opacity 1→0.4 */}
       <motion.div
         style={
