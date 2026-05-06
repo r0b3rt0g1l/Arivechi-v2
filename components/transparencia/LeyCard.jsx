@@ -1,8 +1,12 @@
-import { FileText, Download, Calendar } from "lucide-react";
+import { FileText, Calendar, Eye, Building2 } from "lucide-react";
 import { formatBytes } from "@/lib/leyes";
 import { formatFechaLarga } from "@/lib/dates";
+import { PDFViewer } from "@/components/transparencia/PDFViewer";
 
 export function LeyCard({ ley }) {
+  const tieneFechas = Boolean(ley.publicada || ley.actualizada);
+  const tieneAdministracion = Boolean(ley.administracion);
+
   return (
     <article className="group flex flex-col gap-5 rounded-2xl border border-[var(--color-border)] bg-white p-6 shadow-[var(--shadow-card)] transition duration-300 hover:-translate-y-1 hover:border-[var(--color-guinda)]/30 hover:shadow-[var(--shadow-card-hover)] md:flex-row md:items-start md:gap-7">
       <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--color-guinda-deep)] to-[var(--color-guinda)] text-white shadow-sm">
@@ -26,51 +30,57 @@ export function LeyCard({ ley }) {
           {ley.descripcion}
         </p>
 
-        <dl className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-[var(--color-text-muted)]">
-          <div className="inline-flex items-center gap-1.5">
-            <Calendar aria-hidden="true" className="h-3.5 w-3.5" />
-            <dt className="sr-only">Publicada</dt>
-            <dd>
-              Publicada{" "}
-              <time dateTime={ley.publicada}>
-                {formatFechaLarga(ley.publicada)}
-              </time>
-            </dd>
-          </div>
-          <div className="inline-flex items-center gap-1.5">
-            <Calendar aria-hidden="true" className="h-3.5 w-3.5" />
-            <dt className="sr-only">Última actualización</dt>
-            <dd>
-              Actualizada{" "}
-              <time dateTime={ley.actualizada}>
-                {formatFechaLarga(ley.actualizada)}
-              </time>
-            </dd>
-          </div>
-        </dl>
+        {(tieneFechas || tieneAdministracion) && (
+          <dl className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-[var(--color-text-muted)]">
+            {ley.publicada && (
+              <div className="inline-flex items-center gap-1.5">
+                <Calendar aria-hidden="true" className="h-3.5 w-3.5" />
+                <dt className="sr-only">Publicada</dt>
+                <dd>
+                  Publicada{" "}
+                  <time dateTime={ley.publicada}>
+                    {formatFechaLarga(ley.publicada)}
+                  </time>
+                </dd>
+              </div>
+            )}
+            {ley.actualizada && (
+              <div className="inline-flex items-center gap-1.5">
+                <Calendar aria-hidden="true" className="h-3.5 w-3.5" />
+                <dt className="sr-only">Última actualización</dt>
+                <dd>
+                  Actualizada{" "}
+                  <time dateTime={ley.actualizada}>
+                    {formatFechaLarga(ley.actualizada)}
+                  </time>
+                </dd>
+              </div>
+            )}
+            {tieneAdministracion && (
+              <div className="inline-flex items-center gap-1.5">
+                <Building2 aria-hidden="true" className="h-3.5 w-3.5" />
+                <dt className="sr-only">Administración</dt>
+                <dd>Administración {ley.administracion}</dd>
+              </div>
+            )}
+          </dl>
+        )}
 
         <div className="mt-2 flex flex-wrap gap-3">
-          <a
-            href={ley.archivo}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group/btn inline-flex items-center gap-2 rounded-full bg-[var(--color-guinda)] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--color-guinda-deep)]"
-          >
-            <Download
-              aria-hidden="true"
-              className="h-4 w-4 transition-transform group-hover/btn:translate-y-0.5"
-            />
-            Descargar PDF
-          </a>
-          <a
-            href={ley.archivo}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-white px-5 py-2.5 text-sm font-semibold text-[var(--color-text)] transition hover:border-[var(--color-guinda)] hover:text-[var(--color-guinda)]"
-          >
-            <FileText aria-hidden="true" className="h-4 w-4" />
-            Ver en línea
-          </a>
+          <PDFViewer
+            pdfUrl={ley.archivo}
+            title={ley.titulo}
+            subtitle={`${ley.ambito} · ${formatBytes(ley.tamanoBytes)}`}
+            trigger={
+              <button
+                type="button"
+                className="inline-flex items-center gap-2 rounded-full bg-[var(--color-guinda)] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--color-guinda-deep)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2"
+              >
+                <Eye aria-hidden="true" className="h-4 w-4" />
+                Ver documento
+              </button>
+            }
+          />
         </div>
       </div>
     </article>

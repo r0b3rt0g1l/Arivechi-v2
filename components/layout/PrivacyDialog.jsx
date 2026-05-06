@@ -3,14 +3,22 @@
 import { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ShieldCheck } from "lucide-react";
+import { X, ShieldCheck, Eye } from "lucide-react";
 import { municipalConfig } from "@/lib/municipalConfig";
+import { PDFViewer } from "@/components/transparencia/PDFViewer";
 
 export function PrivacyDialog({ trigger }) {
   const [open, setOpen] = useState(false);
+  const [pdfOpen, setPdfOpen] = useState(false);
   const { identidad, contacto } = municipalConfig;
 
+  function handleOpenPdf() {
+    setOpen(false);
+    setTimeout(() => setPdfOpen(true), 220);
+  }
+
   return (
+    <>
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
         {trigger ?? (
@@ -167,16 +175,14 @@ export function PrivacyDialog({ trigger }) {
                 </div>
 
                 <div className="flex flex-col-reverse items-stretch gap-3 border-t border-[var(--color-border)] bg-[var(--color-bg)] px-6 py-4 sm:flex-row sm:items-center sm:justify-end">
-                  <a
-                    href={
-                      municipalConfig.enlacesExternos.avisoPrivacidadPdf
-                    }
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-md border border-[var(--color-border)] bg-white px-4 py-2 text-center text-sm font-semibold text-[var(--color-text)] transition hover:border-[var(--color-guinda)] hover:text-[var(--color-guinda)]"
+                  <button
+                    type="button"
+                    onClick={handleOpenPdf}
+                    className="inline-flex items-center justify-center gap-2 rounded-md border border-[var(--color-border)] bg-white px-4 py-2 text-center text-sm font-semibold text-[var(--color-text)] transition hover:border-[var(--color-guinda)] hover:text-[var(--color-guinda)]"
                   >
-                    Descargar PDF oficial
-                  </a>
+                    <Eye className="h-4 w-4" aria-hidden="true" />
+                    Ver Aviso oficial
+                  </button>
                   <Dialog.Close asChild>
                     <button
                       type="button"
@@ -192,6 +198,15 @@ export function PrivacyDialog({ trigger }) {
         )}
       </AnimatePresence>
     </Dialog.Root>
+
+    <PDFViewer
+      pdfUrl={municipalConfig.enlacesExternos.avisoPrivacidadPdf}
+      title="Aviso de Privacidad"
+      subtitle={`${identidad.nombreOficial}, Sonora`}
+      open={pdfOpen}
+      onOpenChange={setPdfOpen}
+    />
+    </>
   );
 }
 

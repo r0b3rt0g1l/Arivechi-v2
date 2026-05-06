@@ -37,7 +37,35 @@
       "PowerShell(Set-Location \"D:\\\\DESKTOP\\\\Arivechi-v2\"; $output = & npm run build 2>&1; $output | Out-File -FilePath \"build.log\" -Encoding utf8; \"EXIT=$LASTEXITCODE\"; Get-Content \"build.log\" | Select-Object -Last 80)",
       "PowerShell(Set-Location \"D:\\\\DESKTOP\\\\Arivechi-v2\"; \"--- build.log size ---\"; \\(Get-Item \"build.log\"\\).Length; \"--- build.log content ---\"; Get-Content \"build.log\" -Raw; \"--- .next exists? ---\"; Test-Path \".next\"; if \\(Test-Path \".next\"\\) { Get-ChildItem \".next\" | Select-Object Name | Format-Table -AutoSize })",
       "PowerShell(Set-Location \"D:\\\\DESKTOP\\\\Arivechi-v2\"; \"--- via npx ---\"; $out = npx --no next build 2>&1 | Out-String; $out; \"--- EXIT=$LASTEXITCODE ---\"; \"--- .next now? ---\"; Test-Path \".next\")",
-      "PowerShell(Set-Location \"D:\\\\DESKTOP\\\\Arivechi-v2\"; \"--- direct node invocation ---\"; node \"./node_modules/next/dist/bin/next\" build 2>&1 | Out-String; \"--- EXIT=$LASTEXITCODE ---\"; \"--- .next? ---\"; Test-Path \".next\")"
+      "PowerShell(Set-Location \"D:\\\\DESKTOP\\\\Arivechi-v2\"; \"--- direct node invocation ---\"; node \"./node_modules/next/dist/bin/next\" build 2>&1 | Out-String; \"--- EXIT=$LASTEXITCODE ---\"; \"--- .next? ---\"; Test-Path \".next\")",
+      "Bash(node ./node_modules/next/dist/bin/next build)",
+      "PowerShell($conn = Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue; if \\($conn\\) { \"listening on 3000 \\(PID $\\($conn.OwningProcess\\)\\)\" } else { \"NOT listening\" })",
+      "Bash(node ./node_modules/next/dist/bin/next dev)",
+      "PowerShell($conn = Get-NetTCPConnection -LocalPort 3000 -State Listen -ErrorAction SilentlyContinue; if \\($conn\\) { \"OK listening on 3000 \\(PID $\\($conn.OwningProcess\\)\\)\" } else { \"DOWN - port 3000 not listening\" })",
+      "PowerShell(Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue | ForEach-Object { try { Stop-Process -Id $_.OwningProcess -Force } catch {} }; \"port-cleared\")",
+      "WebFetch(domain:commons.wikimedia.org)",
+      "Bash(mkdir -p /d/DESKTOP/Arivechi-v2/public/images/sonora)",
+      "Bash(curl -sSL -A \"Mozilla/5.0 \\(compatible; ArivechiPortal/1.0\\)\" -o \"/d/DESKTOP/Arivechi-v2/public/images/sonora/calle-puerto-lobos.jpg\" \"https://upload.wikimedia.org/wikipedia/commons/d/d9/Calles_de_Puerto_Lobos_-_panoramio.jpg\")",
+      "Bash(curl -sSL -A \"Mozilla/5.0 \\(compatible; ArivechiPortal/1.0\\)\" -o \"/d/DESKTOP/Arivechi-v2/public/images/sonora/arboles-en-el-rio.jpg\" \"https://upload.wikimedia.org/wikipedia/commons/e/ea/Arboles_en_el_Rio_-_panoramio.jpg\")",
+      "Bash(file /d/DESKTOP/Arivechi-v2/public/images/sonora/*.jpg)",
+      "Bash(rm /d/DESKTOP/Arivechi-v2/public/images/sonora/calle-puerto-lobos.jpg)",
+      "Bash(curl -sSL -A \"Mozilla/5.0 \\(compatible; ArivechiPortal/1.0\\)\" -o \"/d/DESKTOP/Arivechi-v2/public/images/sonora/alamos-vista-mirador.jpg\" \"https://upload.wikimedia.org/wikipedia/commons/a/a7/Vista_mirador_%C3%81lamos_01.jpg\")",
+      "Bash(curl -sSL -A \"Mozilla/5.0 \\(compatible; ArivechiPortal/1.0\\)\" -o \"/d/DESKTOP/Arivechi-v2/public/documentos/aviso-privacidad-arivechi.pdf\" \"https://arivechi.transparenciasonora.org/wp-content/uploads/2023/04/AvisoProvacidad_ARIVECHI.pdf\")",
+      "Bash(curl -sSL -A \"Mozilla/5.0 \\(compatible; ArivechiPortal/1.0\\)\" -o \"/tmp/logo-oficial.png\" \"https://arivechi.transparenciasonora.org/wp-content/uploads/2024/10/LOGO-2024-2027-150x150.png\")",
+      "Bash(rm -f /tmp/logo-oficial.png && ls -la /d/DESKTOP/Arivechi-v2/public/documentos/)",
+      "Bash(git ls-tree *)",
+      "WebFetch(domain:arivechi.transparenciasonora.org)",
+      "PowerShell($ErrorActionPreference='Stop'; Write-Output '=== theme-main.js ==='; $tm=Invoke-WebRequest -Uri 'https://arivechi.transparenciasonora.org/wp-content/themes/municipios_wp/assets/js/theme-main.js?ver=1.0.10' -UseBasicParsing; \\($tm.Content -split \"`n\"\\) | Select-String -Pattern 'ajax|fetch|XMLHttpRequest|wp-json|\\\\.php|admin-ajax|arrayA|arrayT|documento' -CaseSensitive:$false | Select-Object -First 50 | ForEach-Object { $_.Line.Trim\\(\\) })",
+      "PowerShell($ErrorActionPreference='Stop'; $urls = @\\('https://arivechi.transparenciasonora.org/documento/?id=288&if=286&t=Todos&a=2026','https://arivechi.transparenciasonora.org/documento/?id=288&if=286&t=Todos&a=2025','https://arivechi.transparenciasonora.org/documento/?id=288&if=286&t=Todos&a=Todos','https://arivechi.transparenciasonora.org/documento/?id=287&if=285&t=Todos&a=Todos'\\); foreach\\($u in $urls\\){ try { $r=Invoke-WebRequest -Uri $u -UseBasicParsing; $pdfs=[regex]::Matches\\($r.Content,'https?://[^\\\\s\\\\\"''<>]+\\\\.pdf'\\) | ForEach-Object {$_.Value} | Select-Object -Unique; Write-Output \\('=== ' + $u + ' \\(len=' + $r.Content.Length + '\\) ==='\\); $pdfs } catch { Write-Output \\('ERROR ' + $u + ': ' + $_.Exception.Message\\) } })",
+      "PowerShell($content = Get-Content 'C:\\\\Users\\\\rgilh\\\\.claude\\\\projects\\\\d--DESKTOP-Arivechi-v2\\\\820b869e-c853-40bd-8aa2-7edf01a1262a\\\\tool-results\\\\bt2s5psbu.txt' -Raw; $lines = $content -split \"`n\"; $lines | Where-Object { $_ -match '\\(?i\\)error|warn|fail' -and $_ -notmatch 'Remove-Item|RemoveFileSystemItem|FullyQualifiedErrorId|UnAuthorizedAccess|RemoveItemCommand|sin-warnings|warn-on' } | Select-Object -Unique)",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri 'http://localhost:3000/' -UseBasicParsing -TimeoutSec 5; Write-Output \\('Status: ' + $r.StatusCode + ' — Server activo'\\) } catch { Write-Output \\('Sin servidor en localhost:3000 — ' + $_.Exception.Message\\) })",
+      "PowerShell(Get-Process -Name node -ErrorAction SilentlyContinue)",
+      "PowerShell(Start-Process -FilePath 'node' -ArgumentList 'D:\\\\DESKTOP\\\\Arivechi-v2\\\\node_modules\\\\next\\\\dist\\\\bin\\\\next','dev','--port','3000' -WorkingDirectory 'D:\\\\DESKTOP\\\\Arivechi-v2' -RedirectStandardOutput 'D:\\\\tmp\\\\next-dev.log' -RedirectStandardError 'D:\\\\tmp\\\\next-dev.err.log' -PassThru)",
+      "PowerShell(Start-Process -FilePath 'node' -ArgumentList 'D:\\\\DESKTOP\\\\Arivechi-v2\\\\node_modules\\\\next\\\\dist\\\\bin\\\\next','dev','--port','3001' -WorkingDirectory 'D:\\\\DESKTOP\\\\Arivechi-v2' -RedirectStandardOutput 'D:\\\\tmp\\\\next-dev.log' -RedirectStandardError 'D:\\\\tmp\\\\next-dev.err.log' -PassThru)",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri 'http://localhost:3001/transparencia/sevac' -UseBasicParsing -TimeoutSec 25; Write-Output \\('Status: ' + $r.StatusCode + ' — OK len=' + $r.Content.Length\\) } catch { Write-Output \\('Error: ' + $_.Exception.Message\\) })"
+    ],
+    "additionalDirectories": [
+      "\\tmp"
     ]
   }
 }
