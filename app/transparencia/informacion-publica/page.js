@@ -89,10 +89,15 @@ export default function InformacionPublicaPage() {
                   className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-guinda)]"
                 />
                 <span className="leading-tight text-[var(--color-text-secondary)]">
-                  {contacto.telefono}
-                  <span className="mt-0.5 block text-[11px] italic text-[var(--color-text-muted)]">
-                    Próximamente disponible
-                  </span>
+                  {contacto.telefonos.map((tel) => (
+                    <a
+                      key={tel}
+                      href={`tel:${tel.replace(/\s+/g, "")}`}
+                      className="block hover:text-[var(--color-guinda)] hover:underline"
+                    >
+                      {tel}
+                    </a>
+                  ))}
                 </span>
               </li>
               <li className="flex items-start gap-2.5">

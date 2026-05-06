@@ -12,12 +12,12 @@ export const navItems = [
   },
   {
     label: "Transparencia",
-    externalHref: municipalConfig.enlacesExternos.transparenciaSonora,
+    externalHref: municipalConfig.enlacesExternos.transparenciaAyuntamiento,
     externalAriaLabel:
-      "Portal Estatal de Transparencia (abre en nueva pestaña)",
+      "Portal Oficial de Transparencia del Ayuntamiento de Arivechi (abre en nueva pestaña)",
     children: [
       { label: "Información Pública", href: "/transparencia/informacion-publica" },
-      { label: "Leyes", href: "/transparencia/leyes" },
+      { label: "Leyes y Reglamentos", href: "/transparencia/leyes" },
     ],
   },
   { label: "SEvAC", href: "/transparencia/sevac" },

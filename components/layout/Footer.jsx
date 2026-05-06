@@ -85,13 +85,21 @@ export function Footer() {
                 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-dorado)]"
               />
               <span className="leading-tight text-[var(--color-cream)]/85">
-                {contacto.telefono}{" "}
-                <span className="text-[var(--color-cream)]/55">
-                  · Lada {municipalConfig.datos.lada}
-                </span>
-                <span className="mt-0.5 block text-[11px] italic text-[var(--color-cream)]/50">
-                  Próximamente disponible
-                </span>
+                {contacto.telefonos.map((tel, i) => (
+                  <span key={tel} className="block">
+                    <a
+                      href={`tel:${tel.replace(/\s+/g, "")}`}
+                      className="hover:text-white hover:underline underline-offset-4"
+                    >
+                      {tel}
+                    </a>
+                    {i === 0 && (
+                      <span className="ml-2 text-[var(--color-cream)]/55">
+                        Lada {municipalConfig.datos.lada}
+                      </span>
+                    )}
+                  </span>
+                ))}
               </span>
             </li>
             <li className="flex items-start gap-2.5">

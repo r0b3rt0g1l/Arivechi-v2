@@ -1,6 +1,7 @@
 import { ExternalLink, FileText, Download } from "lucide-react";
 import { buildMetadata } from "@/lib/seo";
 import { sevac, sevacDocumentos } from "@/lib/sevac";
+import { municipalConfig } from "@/lib/municipalConfig";
 
 export const revalidate = 3600;
 
@@ -20,8 +21,6 @@ const TIPO_BADGE = {
 };
 
 export default function SevacPage() {
-  const enlaceDisponible = Boolean(sevac.enlaceOficial);
-
   return (
     <main className="flex flex-1 flex-col">
       <header className="border-b border-[var(--color-border)] bg-[var(--color-bg)]">
@@ -47,31 +46,35 @@ export default function SevacPage() {
           <p>{sevac.marcoLegal}</p>
         </div>
 
-        <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
-          {enlaceDisponible ? (
+        <div className="mt-10 rounded-2xl border border-[var(--color-dorado)]/30 bg-[var(--color-guinda)] p-7 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.3)] md:p-9">
+          <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-dorado)]">
+            <span
+              aria-hidden="true"
+              className="block h-px w-8 bg-[var(--color-dorado)]"
+            />
+            Portal Oficial del Ayuntamiento
+          </p>
+          <h2 className="mt-3 font-display text-xl font-bold leading-snug text-white md:text-2xl">
+            Acceso al archivo completo de documentos SEvAC
+          </h2>
+          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[var(--color-cream)]/90 md:text-base">
+            Para acceso al archivo completo de documentos oficiales SEvAC,
+            visite el portal oficial de transparencia del Ayuntamiento.
+          </p>
+          <div className="mt-5">
             <a
-              href={sevac.enlaceOficial}
+              href={municipalConfig.enlacesExternos.transparenciaAyuntamientoSevac}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--color-guinda)] px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--color-guinda-deep)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-dorado)] focus-visible:ring-offset-2"
+              className="group inline-flex items-center gap-2 rounded-full bg-[var(--color-dorado)] px-6 py-3 text-sm font-semibold text-[var(--color-guinda-deep)] shadow-md transition-all duration-200 hover:scale-105 hover:bg-[#E5B62A] hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
             >
-              Consultar SEvAC oficial
-              <ExternalLink className="h-4 w-4" aria-hidden="true" />
+              Ver documentos oficiales completos
+              <ExternalLink
+                aria-hidden="true"
+                className="h-4 w-4 transition-transform group-hover:translate-x-1"
+              />
             </a>
-          ) : (
-            <button
-              type="button"
-              disabled
-              aria-disabled="true"
-              className="inline-flex cursor-not-allowed items-center gap-2 rounded-full bg-[var(--color-text-muted)]/30 px-6 py-3 text-sm font-semibold text-[var(--color-text-muted)]"
-            >
-              Consultar SEvAC oficial
-              <ExternalLink className="h-4 w-4" aria-hidden="true" />
-            </button>
-          )}
-          <span className="text-xs italic text-[var(--color-text-muted)]">
-            Próximamente disponible
-          </span>
+          </div>
         </div>
       </section>
 

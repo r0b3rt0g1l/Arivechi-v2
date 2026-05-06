@@ -160,13 +160,23 @@ export function PrivacyDialog({ trigger }) {
                   </section>
 
                   <p className="mt-2 rounded-lg border border-dashed border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-xs italic text-[var(--color-text-muted)]">
-                    Aviso de Privacidad Simplificado · Versión preliminar.
-                    El documento integral será publicado por la Unidad de
-                    Transparencia Municipal una vez validado oficialmente.
+                    Aviso de Privacidad Simplificado. El documento oficial
+                    publicado por el Ayuntamiento puede consultarse y
+                    descargarse desde el botón inferior.
                   </p>
                 </div>
 
-                <div className="flex items-center justify-end gap-3 border-t border-[var(--color-border)] bg-[var(--color-bg)] px-6 py-4">
+                <div className="flex flex-col-reverse items-stretch gap-3 border-t border-[var(--color-border)] bg-[var(--color-bg)] px-6 py-4 sm:flex-row sm:items-center sm:justify-end">
+                  <a
+                    href={
+                      municipalConfig.enlacesExternos.avisoPrivacidadPdf
+                    }
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-md border border-[var(--color-border)] bg-white px-4 py-2 text-center text-sm font-semibold text-[var(--color-text)] transition hover:border-[var(--color-guinda)] hover:text-[var(--color-guinda)]"
+                  >
+                    Descargar PDF oficial
+                  </a>
                   <Dialog.Close asChild>
                     <button
                       type="button"

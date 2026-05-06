@@ -14,9 +14,8 @@ export function ContactoInfo() {
     {
       icon: Phone,
       label: "Teléfono",
-      value: `${contacto.telefono} · Lada ${datos.lada}`,
-      href: `tel:${contacto.telefono.replace(/[^+\d]/g, "")}`,
-      legend: "Próximamente disponible",
+      phones: contacto.telefonos,
+      legendSecondary: `Lada ${datos.lada}`,
     },
     {
       icon: Mail,
@@ -50,7 +49,24 @@ export function ContactoInfo() {
                 <p className="text-[10px] font-semibold uppercase tracking-widest text-[var(--color-text-muted)]">
                   {item.label}
                 </p>
-                {item.href ? (
+                {item.phones ? (
+                  <div className="mt-1 space-y-0.5">
+                    {item.phones.map((tel) => (
+                      <a
+                        key={tel}
+                        href={`tel:${tel.replace(/\s+/g, "")}`}
+                        className="block text-sm font-medium text-[var(--color-text)] hover:text-[var(--color-guinda)] hover:underline"
+                      >
+                        {tel}
+                      </a>
+                    ))}
+                    {item.legendSecondary && (
+                      <p className="text-xs text-[var(--color-text-muted)]">
+                        {item.legendSecondary}
+                      </p>
+                    )}
+                  </div>
+                ) : item.href ? (
                   <a
                     href={item.href}
                     className="mt-1 block text-sm font-medium text-[var(--color-text)] hover:text-[var(--color-guinda)] hover:underline"
@@ -60,11 +76,6 @@ export function ContactoInfo() {
                 ) : (
                   <p className="mt-1 text-sm font-medium text-[var(--color-text)]">
                     {item.value}
-                  </p>
-                )}
-                {item.legend && (
-                  <p className="mt-0.5 text-xs italic text-[var(--color-text-muted)]">
-                    {item.legend}
                   </p>
                 )}
               </div>
