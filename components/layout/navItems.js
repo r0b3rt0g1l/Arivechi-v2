@@ -18,9 +18,11 @@ export const navItems = [
     children: [
       { label: "Información Pública", href: "/transparencia/informacion-publica" },
       { label: "Leyes y Reglamentos", href: "/transparencia/leyes" },
+      { label: "Documentos", href: "/documentos" },
     ],
   },
   { label: "SEvAC", href: "/transparencia/sevac" },
+  { label: "Galería", href: "/galeria" },
   { label: "Turismo", href: "/turismo" },
   { label: "Contacto", href: "/contacto" },
 ];

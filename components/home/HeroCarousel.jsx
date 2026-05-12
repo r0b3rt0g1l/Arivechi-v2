@@ -12,7 +12,6 @@ import {
   useTransform,
 } from "framer-motion";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
-import { heroSlides } from "@/components/home/heroSlides";
 import { ScrollIndicator } from "@/components/home/ScrollIndicator";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/cn";
@@ -23,7 +22,9 @@ const ALIGN_CLASSES = {
   right: "items-end text-right",
 };
 
-export function HeroCarousel() {
+export function HeroCarousel({ slides }) {
+  if (!slides || slides.length === 0) return null;
+
   const heroRef = useRef(null);
   const reduce = useReducedMotion();
 
@@ -68,7 +69,7 @@ export function HeroCarousel() {
     };
   }, [emblaApi]);
 
-  const activeSlide = heroSlides[selectedIndex];
+  const activeSlide = slides[selectedIndex];
 
   return (
     <section
@@ -86,12 +87,12 @@ export function HeroCarousel() {
       >
         <div ref={emblaRef} className="h-full overflow-hidden">
           <div className="flex h-full">
-            {heroSlides.map((slide, index) => (
+            {slides.map((slide, index) => (
               <div
                 key={slide.id}
                 role="group"
                 aria-roledescription="diapositiva"
-                aria-label={`${index + 1} de ${heroSlides.length}: ${slide.title}`}
+                aria-label={`${index + 1} de ${slides.length}: ${slide.title}`}
                 className="relative h-full w-full shrink-0 grow-0 basis-full"
               >
                 <Image

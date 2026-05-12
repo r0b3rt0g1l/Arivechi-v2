@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { buildMetadata } from "@/lib/seo";
-import { comunicados, getNoticiaPorSlug, getNoticiasRelacionadas } from "@/lib/noticias";
+import { comunicados, getNoticiaPorSlug, getNoticiasRelacionadas } from "@/lib/noticiasService";
 import { NoticiaHero } from "@/components/noticias/NoticiaHero";
 import { NoticiaContent } from "@/components/noticias/NoticiaContent";
 import { ShareButtons } from "@/components/noticias/ShareButtons";
@@ -14,7 +14,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const item = getNoticiaPorSlug(slug);
+  const item = await getNoticiaPorSlug(slug);
   if (!item) return buildMetadata({ title: "Comunicado no encontrado", noIndex: true });
 
   return buildMetadata({
@@ -27,11 +27,11 @@ export async function generateMetadata({ params }) {
 
 export default async function ComunicadoPage({ params }) {
   const { slug } = await params;
-  const item = getNoticiaPorSlug(slug);
+  const item = await getNoticiaPorSlug(slug);
 
   if (!item) notFound();
 
-  const relacionadas = getNoticiasRelacionadas(slug, 3);
+  const relacionadas = await getNoticiasRelacionadas(slug, 3);
 
   return (
     <article className="flex flex-1 flex-col">

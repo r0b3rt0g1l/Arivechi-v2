@@ -1,5 +1,5 @@
 import { buildMetadata } from "@/lib/seo";
-import { noticias, comunicados } from "@/lib/noticias";
+import { getNoticiasAll, comunicados } from "@/lib/noticiasService";
 import { NoticiasTabs } from "@/components/noticias/NoticiasTabs";
 
 export const revalidate = 60;
@@ -11,7 +11,9 @@ export const metadata = buildMetadata({
   path: "/acciones-de-gobierno",
 });
 
-export default function AccionesDeGobiernoPage() {
+export default async function AccionesDeGobiernoPage() {
+  const noticias = await getNoticiasAll();
+
   return (
     <main className="flex flex-1 flex-col">
       <header className="bg-[var(--color-bg)] border-b border-[var(--color-border)]">
