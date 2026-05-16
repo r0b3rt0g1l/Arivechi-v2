@@ -1,7 +1,13 @@
 import { FileText, Calendar, Eye, Building2 } from "lucide-react";
-import { formatBytes } from "@/lib/leyes";
 import { formatFechaLarga } from "@/lib/dates";
 import { PDFViewer } from "@/components/transparencia/PDFViewer";
+
+function formatBytes(bytes = 0) {
+  if (!bytes) return "—";
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+}
 
 export function LeyCard({ ley }) {
   const tieneFechas = Boolean(ley.publicada || ley.actualizada);

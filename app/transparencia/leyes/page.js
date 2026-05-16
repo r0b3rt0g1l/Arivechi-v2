@@ -1,8 +1,9 @@
 import { Scale } from "lucide-react";
 import { buildMetadata } from "@/lib/seo";
-import { leyes } from "@/lib/leyes";
-import { reglamentosMunicipales } from "@/lib/leyesReglamentos";
+import { getDocumentosFromCMS } from "@/lib/cms";
 import { LeyCard } from "@/components/transparencia/LeyCard";
+
+export const revalidate = 60;
 
 export const metadata = buildMetadata({
   title: "Leyes y Reglamentos",
@@ -11,7 +12,23 @@ export const metadata = buildMetadata({
   path: "/transparencia/leyes",
 });
 
-export default function LeyesPage() {
+function toLeyShape(doc) {
+  return { ...doc, archivo: doc.url };
+}
+
+export default async function LeyesPage() {
+  const documentos = (await getDocumentosFromCMS()) ?? [];
+
+  const reglamentosMunicipales = documentos
+    .filter((d) => d.ambito === "MUNICIPAL")
+    .map(toLeyShape);
+  const marcoFederalEstatal = documentos
+    .filter((d) => d.ambito === "FEDERAL" || d.ambito === "ESTATAL")
+    .map(toLeyShape);
+
+  const sinReglamentos = reglamentosMunicipales.length === 0;
+  const sinMarcoExterno = marcoFederalEstatal.length === 0;
+
   return (
     <main className="flex flex-1 flex-col">
       <header className="border-b border-[var(--color-border)] bg-[var(--color-bg)]">
@@ -46,13 +63,19 @@ export default function LeyesPage() {
           </p>
         </header>
 
-        <ul className="grid gap-6">
-          {reglamentosMunicipales.map((reglamento) => (
-            <li key={reglamento.id}>
-              <LeyCard ley={reglamento} />
-            </li>
-          ))}
-        </ul>
+        {sinReglamentos ? (
+          <p className="rounded-xl border border-dashed border-[var(--color-border)] bg-[var(--color-bg)] px-5 py-8 text-center text-sm text-[var(--color-text-muted)]">
+            Aún no hay documentos publicados.
+          </p>
+        ) : (
+          <ul className="grid gap-6">
+            {reglamentosMunicipales.map((reglamento) => (
+              <li key={reglamento.id}>
+                <LeyCard ley={reglamento} />
+              </li>
+            ))}
+          </ul>
+        )}
 
         <header className="mt-16 mb-6">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-guinda)]">
@@ -67,13 +90,19 @@ export default function LeyesPage() {
           </p>
         </header>
 
-        <ul className="grid gap-6">
-          {leyes.map((ley) => (
-            <li key={ley.id}>
-              <LeyCard ley={ley} />
-            </li>
-          ))}
-        </ul>
+        {sinMarcoExterno ? (
+          <p className="rounded-xl border border-dashed border-[var(--color-border)] bg-[var(--color-bg)] px-5 py-8 text-center text-sm text-[var(--color-text-muted)]">
+            Aún no hay documentos publicados.
+          </p>
+        ) : (
+          <ul className="grid gap-6">
+            {marcoFederalEstatal.map((ley) => (
+              <li key={ley.id}>
+                <LeyCard ley={ley} />
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
     </main>
   );
